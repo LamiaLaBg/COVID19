@@ -8,19 +8,21 @@ import { environment } from 'src/environments/environment';
 import { Covid19Component } from './covid19/covid19.component';
 import { Covid19PerCountyComponent } from './covid19-per-county/covid19-per-county.component';
 import { NewsComponent } from './news/news.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     Covid19Component,
     Covid19PerCountyComponent,
-    NewsComponent
+    NewsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

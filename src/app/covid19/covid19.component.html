@@ -4,19 +4,33 @@
     </head>
     
     <header>
+        <!---créer une navbar avec signin/signout-->
+        <div class="col-sm-6">
+            <h3>{{user.displayName}}</h3>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
+        </div>
+        <div class="col-sm-6 text-right">
+            <button class="btn btn-danger" (click)="covid19Service.addNews()">Add news</button>
+        </div>
+
         <div class="text-center">
             <img 
             style= "width: 5% "
             src="https://firebasestorage.googleapis.com/v0/b/covid19-69f30.appspot.com/o/covid.png?alt=media&token=42896101-32af-484d-b0ee-a5a2eb8f7e0a" 
             alt="covid" >
             <h1>COVID19</h1>
-            
         </div>
     </header>
     <body >
         <div class="text-center">
+            <button class="btn btn-info" (click)="showSummary()">print</button>
+        </div>
+        <div class="text-center">
             <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
         </div>
+        
     </body>
     <footer id = "footer">
         <p href="https://covid19api.com/"> Data Source: Johns Hpkins CSSE</p>

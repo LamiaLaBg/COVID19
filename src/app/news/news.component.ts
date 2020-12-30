@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Covid19Service } from '../covid19.service';
+import { User } from '../user.model';
 
 @Component({
   selector: 'app-news',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewsComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  constructor(public covid19Service: Covid19Service) { }
 
   ngOnInit(): void {
+    this.user = this.covid19Service.getUser();
   }
-
 }
