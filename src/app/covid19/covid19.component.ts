@@ -17,11 +17,11 @@ export class Covid19Component implements OnInit {
     this.user = this.covid19Service.getUser();
   }
   showSummary() {
-    this.covid19Service.getCovid10Summary()
+    this.covid19Service.getCovid19Summary()
       .subscribe(data => {
           this.data1=data;
           console.log("data",this.data1)
-          console.log("global", this.data1.Global)
+          console.log("global", this.data1.Contries)
       });
   }
 

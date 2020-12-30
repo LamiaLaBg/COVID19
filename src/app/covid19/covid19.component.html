@@ -11,9 +11,13 @@
         <div class="col-sm-6 text-right">
             <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
         </div>
+        <div class="text-center">
+            <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
+        </div>
         <div class="col-sm-6 text-right">
             <button class="btn btn-danger" (click)="covid19Service.addNews()">Add news</button>
         </div>
+
 
         <div class="text-center">
             <img 
@@ -27,9 +31,7 @@
         <div class="text-center">
             <button class="btn btn-info" (click)="showSummary()">print</button>
         </div>
-        <div class="text-center">
-            <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
-        </div>
+        
         
     </body>
     <footer id = "footer">

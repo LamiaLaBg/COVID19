@@ -6,6 +6,8 @@ import{AngularFirestore} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { Country } from './country.model';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,10 @@ import { Observable, throwError } from 'rxjs';
 export class Covid19Service {
 
   private user: User;
+  private country: Country;
+
   url_covid19_summary="https://api.covid19api.com/summary"
-  dataSummary: any;
+  //dataSummary: any;
 
   constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore, private http: HttpClient) { }
 
@@ -68,8 +72,9 @@ export class Covid19Service {
     },{merge: true});// to update if the data changed
   }
   */
+  
 
-  getCovid10Summary(): Observable<any> {
+  getCovid19Summary(): Observable<any> {
     console.log(this.http.get(this.url_covid19_summary))
     return this.http.get(this.url_covid19_summary)
 
