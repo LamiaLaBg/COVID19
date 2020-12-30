@@ -21,7 +21,7 @@ export class Covid19Component implements OnInit {
       .subscribe(data => {
           this.data1=data;
           console.log("data",this.data1)
-          console.log("global", this.data1.Contries)
+          console.log("global", this.data1.Countries)
       });
   }
 

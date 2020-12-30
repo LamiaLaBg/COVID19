@@ -58,11 +58,12 @@ export class Covid19Service {
     return JSON.parse(localStorage.getItem("users")) != null;
   }
 
-  signOut(){
+  async signOut(){
     this.afAuth.signOut();
     localStorage.removeItem("users");
     this.user=null;
-    this.router.navigate(["COVID19"]);
+    await this.router.navigate(["COVID19"]);
+    location.reload();
   }
 
   /*
