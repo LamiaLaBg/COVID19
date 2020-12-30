@@ -1,5 +1,5 @@
 export interface Country{
-    uid: number;
+    uid: string;
     Country: string;
     CountryCode: string;
     NewConfirmed: number;
@@ -8,5 +8,5 @@ export interface Country{
     TotalDeaths: number;
     NewRecovered: number;
     TotalRecovered: number;
-    date: string;
+    Date: string;
 }

@@ -15,14 +15,16 @@ export class Covid19Component implements OnInit {
 
   ngOnInit(): void {
     this.user = this.covid19Service.getUser();
+    this.covid19Service.loadingCovid19Summary();
   }
   showSummary() {
     this.covid19Service.getCovid19Summary()
       .subscribe(data => {
           this.data1=data;
           console.log("data",this.data1)
-          console.log("global", this.data1.Countries)
+          console.log("countries", this.data1.Countries[0])
       });
+    
   }
 
 }
