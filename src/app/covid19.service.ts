@@ -36,7 +36,6 @@ export class Covid19Service {
     //this.updateCovid19Summary()
     this.updateUserData();
     this.router.navigate(["news"]); // TODO: à modifier
-    
   }
   
   private updateUserData(){
@@ -66,8 +65,8 @@ export class Covid19Service {
     location.reload();
   }
 
-  public loadingCovid19Summary(){
-    this.getCovid19Summary()
+  async loadingCovid19Summary(){
+    await this.getCovid19Summary()
       .subscribe(data => {
           this.data=data;
           /*
@@ -117,8 +116,13 @@ export class Covid19Service {
     return this.http.get(this.url_covid19_summary)
   }
 
+  //retrive information from the firebase
   getCountry(){
+    return this.firestore.collection("countries").valueChanges();// get the modified values
+  }
 
+  countryUploaded(): boolean{
+    return JSON.parse(localStorage.getItem("countries")) != null;
   }
 
 

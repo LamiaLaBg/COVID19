@@ -17,6 +17,7 @@
         <div class="col-sm-6 text-right">
             <button class="btn btn-danger" (click)="covid19Service.addNews()">Add news</button>
         </div>
+        <p id="countryname"></p>
 
 
         <div class="text-center">
@@ -35,6 +36,33 @@
         <div class="text-center">
             <button class="btn btn-info" (click)="covid19Service.loadingCovid19Summary()">load</button>
         </div>
+        <div class="text-center">
+            <button class="btn btn-info" (click)="showCountries()">show</button>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>New cases</th>
+                    <th>Total Cases</th>
+                    <th>New recoveries</th>
+                    <th>Total recoveries</th>
+                    <th>New deaths</th>
+                    <th>Total deaths</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let countries of countries">
+                    <td>{{countries.Country.Country}}</td>
+                    <td>{{countries.Country.NewConfirmed}}</td>
+                    <td>{{countries.Country.TotalConfirmed}}</td>
+                    <td>{{countries.Country.NewRecovered}}</td>
+                    <td>{{countries.Country.TotalRecovered}}</td>
+                    <td>{{countries.Country.NewDeaths}}</td>
+                    <td>{{countries.Country.TotalDeaths}}</td>
+                </tr>
+            </tbody>
+        </table>
         
     </body>
     <footer id = "footer">
@@ -43,3 +71,6 @@
     <!--- ajouter commentaire + pour l'eligibilité créer un varibale eligible --->
 
 </html>
+
+yo
+{{countries}}
