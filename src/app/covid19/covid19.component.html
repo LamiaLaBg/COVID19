@@ -30,7 +30,7 @@
     </header>
     <body >
         <div class="text-center">
-            <button class="btn btn-info" (click)="showSummary()">print</button>
+            <button class="btn btn-info" (click)="showGlobal()">global</button>
         </div>
         
         <div class="text-center">
@@ -39,6 +39,62 @@
         <div class="text-center">
             <button class="btn btn-info" (click)="showCountries()">show</button>
         </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Total Cases</th>
+                    <th>New Cases</th>
+                    <th>Active Cases</th>
+                    <th>Total Recovered</th>
+                    <th>New Recovered</th>
+                    <th>Recoversy Rate</th>
+                    <th>Total Deaths</th>
+                    <th>New Deaths</th>
+                    <th>Mortality Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td >{{global.TotalCases}}</td><!--- function onclick doit retenir l'uid du pays hyperlink avec uid du pays--->
+                    <td>{{global.NewCases}}</td>
+                    <td>{{global.ActiveCases}}</td>
+                    <td>{{global.TotalRecovered}}</td>
+                    <td>{{global.NewRecovered}}</td>
+                    <td>{{global.RecoveryRate}}</td>
+                    <td>{{global.TotalDeaths}}</td>
+                    <td>{{global.NewDeaths}}</td>
+                    <td>{{global.MortalityRate}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!--
+        <div 
+        data-chart="bar"
+        data-dataset-label="Traffic"
+        data-labels="['DeadCases', 'RecoveredCases','ActiveCases']"
+        data-dataset-label="[{{global.TotalDeaths}},{{global.TotalRecovered}},]"></div>>
+        -->
+
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>
+        
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -52,14 +108,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let countries of countries">
-                    <td>{{countries.Country.Country}}</td>
-                    <td>{{countries.Country.NewConfirmed}}</td>
-                    <td>{{countries.Country.TotalConfirmed}}</td>
-                    <td>{{countries.Country.NewRecovered}}</td>
-                    <td>{{countries.Country.TotalRecovered}}</td>
-                    <td>{{countries.Country.NewDeaths}}</td>
-                    <td>{{countries.Country.TotalDeaths}}</td>
+                <tr *ngFor="let country of countries">
+                    <td>{{country.Country.Country}}</td>
+                    <td>{{country.Country.NewConfirmed}}</td>
+                    <td>{{country.Country.TotalConfirmed}}</td>
+                    <td>{{country.Country.NewRecovered}}</td>
+                    <td>{{country.Country.TotalRecovered}}</td>
+                    <td>{{country.Country.NewDeaths}}</td>
+                    <td>{{country.Country.TotalDeaths}}</td>
                 </tr>
             </tbody>
         </table>

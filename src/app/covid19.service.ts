@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Country } from './country.model';
 import { User } from './user.model';
+import { Global } from './global.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +80,7 @@ export class Covid19Service {
 
           //we add info for each country
           for (let i=0; i<this.data.Countries.length; i++){
-            this.data1=this.data.Countries[i];
+            let data1 =this.data.Countries[i];
             this.country={
               uid: i.toString(),
               Country: this.data1.Country,
@@ -124,6 +125,40 @@ export class Covid19Service {
   countryUploaded(): boolean{
     return JSON.parse(localStorage.getItem("countries")) != null;
   }
+
+  //retrieving other information for first tabel
+  async FirstTable(){
+    await this.getCovid19Summary()
+      .subscribe(data => {
+          this.data=data;
+          
+          console.log("TotalCases",this.data.Global.TotalConfirmed)
+          console.log("NewCases",this.data.Global.NewConfirmed)
+          console.log("ActiveCases")
+          console.log("TotalRecovered",this.data.Global.TotalRecovered)
+          console.log("NewRecovered",this.data.Global.NewRecovered)
+          console.log("RecoveryRate")
+          console.log("TotaDeaths",this.data.Global.TotaDeaths)
+          console.log("NewDeaths",this.data.Global.NewDeaths)
+          console.log("MortalityRate")
+
+          //we add info for each country
+          /*
+          this.country={
+            TotalCases: any;
+            NewCases: any;
+            ActiveCases: any;
+            TotalRecovered: any;
+            NewRecovered: any;
+            RecoveryRate:any;
+            TotalDeaths: any
+            NewDeaths:any;
+            MortalityRate:any;
+          }
+          */
+      });
+  }
+
 
 
   addNews(){

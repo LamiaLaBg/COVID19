@@ -9,6 +9,7 @@ import { Covid19Component } from './covid19/covid19.component';
 import { Covid19PerCountyComponent } from './covid19-per-county/covid19-per-county.component';
 import { NewsComponent } from './news/news.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     HttpClientModule,
+    ChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
