@@ -5,6 +5,7 @@ import { User } from '../user.model';
 import { Global} from '../global.model';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, MultiDataSet } from 'ng2-charts';
+import { Router } from '@angular/router'; //import router
 
 @Component({
   selector: 'app-covid19',
@@ -41,13 +42,15 @@ export class Covid19Component implements OnInit {
   doughnutChartData: MultiDataSet;
   doughnutChartType: ChartType = 'doughnut';
 
+
+
   /*
   doughnutChartLabels: Label[] = ['Dead Cases', 'Recovered Cases', 'Active Cases'];
   doughnutChartData: any;
   doughnutChartType: ChartType = 'doughnut';
   */
   
-  constructor(public covid19Service: Covid19Service) { 
+  constructor(public covid19Service: Covid19Service, public router: Router) { 
     /*
     let Total=parseInt(this.global.TotalCases)
     let TotalCases_perc= (parseInt(this.global.TotalDeaths)/Total)*100

@@ -39,6 +39,11 @@
         <div class="text-center">
             <button class="btn btn-info" (click)="showCountries()">show</button>
         </div>
+        <h1>Users</h1>
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a class="nav-link" routerLink="/COVID19-per-country/vhoc">user1</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/COVID19-per-country/2">user2</a></li>
+        </ul>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -86,7 +91,7 @@
             [chartType]="barChartType">
           </canvas>
         </div>
-        
+
         <div class="chart-wrapper">
             <canvas baseChart 
             [data]="doughnutChartData"
@@ -95,10 +100,13 @@
           </canvas>
         </div>
 
+        <!--pour 7 derniers jours charts https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
+        <!--pour since 13 april chart https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Country</th>
+                    <th >Country</th>
                     <th>New cases</th>
                     <th>Total Cases</th>
                     <th>New recoveries</th>
@@ -109,7 +117,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let country of countries">
-                    <td>{{country.Country.Country}}</td>
+                    <td routerLink="/COVID19-per-country/{{country.Country.Country}}">{{country.Country.Country}}</td>
                     <td>{{country.Country.NewConfirmed}}</td>
                     <td>{{country.Country.TotalConfirmed}}</td>
                     <td>{{country.Country.NewRecovered}}</td>
