@@ -2,6 +2,7 @@ export interface Country{
     uid: string;
     Country: string;
     CountryCode: string;
+    Slug: string;
     NewConfirmed: number;
     TotalConfirmed: number;
     NewDeaths: number;

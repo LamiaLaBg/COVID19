@@ -10,6 +10,8 @@ import { Covid19PerCountyComponent } from './covid19-per-county/covid19-per-coun
 import { NewsComponent } from './news/news.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
+import {DatePipe} from '@angular/common';
+import { Covid19Service } from './covid19.service';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,7 @@ import { ChartsModule } from 'ng2-charts';
     HttpClientModule,
     ChartsModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

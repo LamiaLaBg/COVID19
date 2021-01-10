@@ -4,21 +4,34 @@
     </head>
     
     <header>
-        <!---créer une navbar avec signin/signout-->
+        <!---créer une navbar avec signin/signout
         <div class="col-sm-6">
             <h3>{{user.displayName}}</h3>
         </div>
-        <div class="col-sm-6 text-right">
-            <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
-        </div>
-        <div class="text-center">
-            <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
-        </div>
-        <div class="col-sm-6 text-right">
-            <button class="btn btn-danger" (click)="covid19Service.addNews()">Add news</button>
-        </div>
+        -->
+        
         <p id="countryname"></p>
-
+        <ul class="nav nav-pills">
+            <div class="nav-item">
+                <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="covid19Service.addNews()">Add news</button>
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="showGlobal()">global</button>
+            </div>
+            
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="covid19Service.loadingCovid19Summary()">load</button>
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="showCountries()">show countries</button>
+            </div>
+        </ul>
 
         <div class="text-center">
             <img 
@@ -28,22 +41,10 @@
             <h1>COVID19</h1>
         </div>
     </header>
-    <body >
-        <div class="text-center">
-            <button class="btn btn-info" (click)="showGlobal()">global</button>
-        </div>
+    <body *ngIf="isDataLoaded">
         
-        <div class="text-center">
-            <button class="btn btn-info" (click)="covid19Service.loadingCovid19Summary()">load</button>
-        </div>
-        <div class="text-center">
-            <button class="btn btn-info" (click)="showCountries()">show</button>
-        </div>
         <h1>Users</h1>
-        <ul class="nav nav-pills">
-            <li class="nav-item"><a class="nav-link" routerLink="/COVID19-per-country/vhoc">user1</a></li>
-            <li class="nav-item"><a class="nav-link" routerLink="/COVID19-per-country/2">user2</a></li>
-        </ul>
+        
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -59,7 +60,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr >
                     <td >{{global.TotalCases}}</td><!--- function onclick doit retenir l'uid du pays hyperlink avec uid du pays--->
                     <td>{{global.NewCases}}</td>
                     <td>{{global.ActiveCases}}</td>
@@ -80,7 +81,7 @@
         data-labels="['DeadCases', 'RecoveredCases','ActiveCases']"
         data-dataset-label="[{{global.TotalDeaths}},{{global.TotalRecovered}},]"></div>>
         -->
-
+        <!--bar chart-->
         <div class="chart-wrapper">
             <canvas baseChart 
             [datasets]="barChartData"
@@ -92,12 +93,26 @@
           </canvas>
         </div>
 
+        <!--pie chart-->
         <div class="chart-wrapper">
             <canvas baseChart 
             [data]="doughnutChartData"
             [labels]="doughnutChartLabels"
             [chartType]="doughnutChartType">
           </canvas>
+        </div>
+
+        <!--line chart-->
+        <div class="chart-wrapper">
+            <canvas baseChart 
+                [datasets]="lineChartData" 
+                [labels]="lineChartLabels" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType" 
+                [plugins]="lineChartPlugins">
+            </canvas>
         </div>
 
         <!--pour 7 derniers jours charts https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
@@ -117,13 +132,13 @@
             </thead>
             <tbody>
                 <tr *ngFor="let country of countries">
-                    <td routerLink="/COVID19-per-country/{{country.Country.Country}}">{{country.Country.Country}}</td>
-                    <td>{{country.Country.NewConfirmed}}</td>
-                    <td>{{country.Country.TotalConfirmed}}</td>
-                    <td>{{country.Country.NewRecovered}}</td>
-                    <td>{{country.Country.TotalRecovered}}</td>
-                    <td>{{country.Country.NewDeaths}}</td>
-                    <td>{{country.Country.TotalDeaths}}</td>
+                    <td routerLink="/COVID19-per-country/{{country.Slug}}">{{country.Slug}}</td>
+                    <td>{{country.NewConfirmed}}</td>
+                    <td>{{country.TotalConfirmed}}</td>
+                    <td>{{country.NewRecovered}}</td>
+                    <td>{{country.TotalRecovered}}</td>
+                    <td>{{country.NewDeaths}}</td>
+                    <td>{{country.TotalDeaths}}</td>
                 </tr>
             </tbody>
         </table>
@@ -135,6 +150,3 @@
     <!--- ajouter commentaire + pour l'eligibilité créer un varibale eligible --->
 
 </html>
-
-yo
-{{countries}}

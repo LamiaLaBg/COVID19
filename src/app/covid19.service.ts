@@ -36,7 +36,7 @@ export class Covid19Service {
     localStorage.setItem('users', JSON.stringify(this.user));
     //this.updateCovid19Summary()
     this.updateUserData();
-    this.router.navigate(["news"]); // TODO: à modifier
+    this.router.navigate([""]); // TODO: à modifier
   }
   
   private updateUserData(){
@@ -83,15 +83,16 @@ export class Covid19Service {
             let data1 =this.data.Countries[i];
             this.country={
               uid: i.toString(),
-              Country: this.data1.Country,
-              CountryCode: this.data1.CountryCode,
-              NewConfirmed: this.data1.NewConfirmed,
-              TotalConfirmed: this.data1.TotalConfirmed,
-              NewDeaths: this.data1.NewDeaths,
-              TotalDeaths: this.data1.TotalDeaths,
-              NewRecovered: this.data1.NewRecovered,
-              TotalRecovered: this.data1.TotalRecovered,
-              Date: this.data1.Date,
+              Country: data1.Country,
+              CountryCode: data1.CountryCode,
+              Slug: data1.Slug,
+              NewConfirmed: data1.NewConfirmed,
+              TotalConfirmed: data1.TotalConfirmed,
+              NewDeaths: data1.NewDeaths,
+              TotalDeaths: data1.TotalDeaths,
+              NewRecovered: data1.NewRecovered,
+              TotalRecovered: data1.TotalRecovered,
+              Date: data1.Date,
             }
             
             localStorage.setItem('countries', JSON.stringify(this.country));
@@ -107,7 +108,18 @@ export class Covid19Service {
   }
   private updateCovid19Summary(){
     this.firestore.collection("countries").doc(this.country.uid).set({
-      Country: this.country,
+      //Country: this.country,
+      uid: this.country.uid,
+      Country: this.country.Country,
+      CountryCode: this.country.CountryCode,
+      Slug: this.country.Slug,
+      NewConfirmed: this.country.NewConfirmed,
+      TotalConfirmed: this.country.TotalConfirmed,
+      NewDeaths: this.country.NewDeaths,
+      TotalDeaths: this.country.TotalDeaths,
+      NewRecovered: this.country.NewRecovered,
+      TotalRecovered: this.country.TotalRecovered,
+      Date: this.country.Date,
     },{merge: true});// to update if the data changed
   }
   
@@ -125,6 +137,15 @@ export class Covid19Service {
   countryUploaded(): boolean{
     return JSON.parse(localStorage.getItem("countries")) != null;
   }
+
+  /// Per country
+
+  getCovid19PerDay(url_perDay_covid: string): Observable<any> {
+    return this.http.get(url_perDay_covid)
+  }
+
+
+
 
   //retrieving other information for first tabel
   async FirstTable(){

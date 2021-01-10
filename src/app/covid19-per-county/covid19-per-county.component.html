@@ -1,31 +1,75 @@
 <html>
 
     <head>
-        <h2> User No: {{id}}</h2>
+        <h2> User No: {{id}}</h2> <!--https://api.covid19api.com/total/dayone/country/south-africa-->
     </head>
     
     <header>
-        <!---créer une navbar avec signin/signout-->
+        <!---créer une navbar avec signin/signout
         
         <div class="col-sm-6">
             <h3>{{user.displayName}}</h3>
         </div>
-        <div class="col-sm-6 text-right">
-            <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
-        </div>
+        -->
+        
+        <ul class="nav nav-pills">
+            <div class="nav-item">
+                <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="showCovidPerDay()">show covid per day</button>
+            
+        </ul>
         <div class="text-center">
             <img 
             style= "width: 5% "
             src="https://firebasestorage.googleapis.com/v0/b/covid19-69f30.appspot.com/o/covid.png?alt=media&token=42896101-32af-484d-b0ee-a5a2eb8f7e0a" 
             alt="covid" >
             <h1>COVID19</h1>
-            
         </div>
     </header>
-    <body >
-        <div class="text-center">
-            <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
+    <body *ngIf="isDataLoaded">
+        
+         <!--bar chart-->
+        <div *ngIf="lackOfInfo" lass="chart-wrapper">
+            <canvas baseChart 
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
         </div>
+        <div *ngIf="!lackOfInfo" lass="chart-wrapper">
+            <h1 class="text-center">sorry the seven earlier days data are missing</h1>
+        </div>
+        <!--pie chart-->
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+
+        <!--line chart-->
+        <div class="chart-wrapper">
+            <canvas baseChart 
+                [datasets]="lineChartData" 
+                [labels]="lineChartLabels" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType" 
+                [plugins]="lineChartPlugins">
+            </canvas>
+        </div>
+
+        
     </body>
     <footer id = "footer">
         <p href="https://covid19api.com/"> Data Source: Johns Hpkins CSSE</p>
