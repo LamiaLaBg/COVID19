@@ -69,15 +69,12 @@ export class Covid19PerCountyComponent implements OnInit {
   tabRecovered7:any=[];
   tabNewCases7:any=[];
   
-  //curb chart
+  //curve chart
   lineChartData: ChartDataSets[] = [];
-
   lineChartLabels: Label[] = [];
-
   lineChartOptions = {
     responsive: true,
   };
-
   lineChartColors: Color[] = [
     {
       borderColor: 'black',
@@ -87,7 +84,7 @@ export class Covid19PerCountyComponent implements OnInit {
 
   lineChartLegend = true;
   lineChartPlugins:any = [];
-  lineChartType = 'line';
+  lineChartType: ChartType = 'line';
 
 
   //NEWS for the country

@@ -182,12 +182,6 @@ export class Covid19Service {
     return this.http.get(url_perDay_covid)
   }
 
-
-
-  
-
-
-
   //retrieving other information for first tabel
   async FirstTable(){
     await this.getCovid19Summary()
@@ -226,6 +220,10 @@ export class Covid19Service {
   //add the redirection the add News page
   addNews(){
     this.router.navigate(["news"]);
+  }
+
+  goToMainPage(){
+    this.router.navigate(["COVID19"]);
   }
 
 

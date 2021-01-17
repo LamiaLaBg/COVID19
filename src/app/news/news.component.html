@@ -4,6 +4,9 @@
             <div class="nav-item">
                 <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
             </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
+            </div>
         </ul>
         <div class="text-center">
             <h1>please sign in to add a news !</h1>
@@ -16,6 +19,9 @@
         </div>
         <div class="col-sm-6 text-right">
             <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
+        </div>
+        <div class="nav-item">
+            <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
         </div>
     </div>
     

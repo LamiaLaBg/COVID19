@@ -22,6 +22,9 @@
             <div class="nav-item">
                 <button class="btn btn-info" (click)="covid19Service.addNews()">Add news</button>
             </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
+            </div>
         </ul>
         <div class="text-center">
             <img 
@@ -92,7 +95,7 @@
         </div>
 
         <!--line chart-->
-        <div class="chart-wrapper">
+        <div  class="chart-wrapper">
             <canvas baseChart 
                 [datasets]="lineChartData" 
                 [labels]="lineChartLabels" 

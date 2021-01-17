@@ -83,7 +83,7 @@ export class Covid19Component implements OnInit {
 
   lineChartLegend = true;
   lineChartPlugins:any = [];
-  lineChartType = 'line';
+  lineChartType: ChartType = 'line';
 
   //define worldwild news tab
   worldWideNews: News[]=[];
@@ -113,7 +113,6 @@ export class Covid19Component implements OnInit {
         }catch(e){
           console.error(e);
         }
-        
       };
     });
     
@@ -123,7 +122,7 @@ export class Covid19Component implements OnInit {
     }else{
       this.isSignedUp=true;
     }
-    this.covid19Service.loadingCovid19Summary();
+    this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
     this.covid19Service.getCountry().subscribe(countries=>{
       this.countries=countries;
     })
@@ -267,8 +266,6 @@ export class Covid19Component implements OnInit {
           //Document.getElementbyId('countryname').innerHTML=this.data1.Countries[0].Country
       });
   }
-
-  
 
   showGlobal(){
     this.covid19Service.getCovid19Summary()

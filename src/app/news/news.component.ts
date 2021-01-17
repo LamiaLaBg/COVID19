@@ -24,19 +24,29 @@ export class NewsComponent implements OnInit {
 
 
   countries: any;
+  userInfo: User;
 
 
   constructor(public covid19Service: Covid19Service) { }
 
   ngOnInit(): void {
     this.user = this.covid19Service.getUser();
-    
+    if (this.user==null){
+      this.isSignedUp=false;
+    }else{
+      this.isSignedUp=true;
+    }
+
     ///console.log("user = "+this.isEligible);
-    this.covid19Service.getUserInfo(this.user.uid).subscribe((_user)=>{
-      //console.log("_user = "+_user);
-      //console.log("_user = "+_user.eligible);
-      this.isEligible= _user.eligible;//get updated data of user for eligibility
-    });
+    if (this.isSignedUp){
+      this.covid19Service.getUserInfo(this.user.uid).subscribe(_user => {
+        this.userInfo=_user as User;
+        //console.log("_user = "+_user);
+        //console.log("_user = "+_user.eligible);
+        this.isEligible= this.userInfo.eligible;//get updated data of user for eligibility
+      });
+    }
+    
 
 
     this.covid19Service.getCountry().subscribe(countries=>{
@@ -47,11 +57,7 @@ export class NewsComponent implements OnInit {
       this.news=news as News[];
     });
     
-    if (this.user==null){
-      this.isSignedUp=false;
-    }else{
-      this.isSignedUp=true;
-    }
+    
     this.isDataNewsuploaded=true;
   }
 
