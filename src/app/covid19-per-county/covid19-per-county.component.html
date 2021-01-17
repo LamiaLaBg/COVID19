@@ -21,7 +21,10 @@
             </div>
             <div class="nav-item">
                 <button class="btn btn-info" (click)="showCovidPerDay()">show covid per day</button>
-            
+            </div>
+            <div class="nav-item">
+                <button class="btn btn-info" (click)="showId()">show Id</button>
+            </div>
         </ul>
         <div class="text-center">
             <img 
@@ -33,6 +36,41 @@
     </header>
     <body *ngIf="isDataLoaded">
         
+        <!--bar chart-->
+        
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Total Cases</th>
+                    <th>New Cases</th>
+                    <th>Active Cases</th>
+                    <th>Total Recovered</th>
+                    <th>New Recovered</th>
+                    <th>Recovery Rate</th>
+                    <th>Total Deaths</th>
+                    <th>New Deaths</th>
+                    <th>Mortality Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr >
+                    <td >{{country.TotalConfirmed}}</td>
+                    <td>{{country.NewConfirmed}}</td>
+                    <td>{{country.ActiveCases}}</td>
+
+                    <td>{{country.TotalRecovered}}</td>
+                    <td>{{country.NewRecovered}}</td>
+                    <td>{{country.RecoveryRate}}</td>
+
+                    <td>{{country.TotalDeaths}}</td>
+                    <td>{{country.NewDeaths}}</td>
+                    <td>{{country.MortalityRate}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        
+
          <!--bar chart-->
         <div *ngIf="lackOfInfo" lass="chart-wrapper">
             <canvas baseChart 
@@ -64,13 +102,14 @@
                 [options]="lineChartOptions"
                 [colors]="lineChartColors" 
                 [legend]="lineChartLegend" 
-                [chartType]="lineChartType" 
+                [chartType]="lineChartType"
                 [plugins]="lineChartPlugins">
             </canvas>
         </div>
 
         
     </body>
+
     <footer id = "footer">
         <p href="https://covid19api.com/"> Data Source: Johns Hpkins CSSE</p>
     </footer>

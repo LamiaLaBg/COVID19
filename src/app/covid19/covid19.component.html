@@ -118,21 +118,22 @@
         <!--pour 7 derniers jours charts https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
         <!--pour since 13 april chart https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
 
-        <table class="table table-bordered table-striped">
+        
+        <table datatable class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th >Country</th>
-                    <th>New cases</th>
-                    <th>Total Cases</th>
-                    <th>New recoveries</th>
-                    <th>Total recoveries</th>
-                    <th>New deaths</th>
-                    <th>Total deaths</th>
+                    <th scope="col" sortable="name">Country</th>
+                    <th scope="col" sortable="name">New cases</th>
+                    <th scope="col" sortable="name"> Total Cases</th>
+                    <th scope="col" sortable="name">New recoveries</th>
+                    <th scope="col" sortable="name">Total recoveries</th>
+                    <th scope="col" sortable="name">New deaths</th>
+                    <th scope="col" sortable="name">Total deaths</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let country of countries">
-                    <td routerLink="/COVID19-per-country/{{country.Slug}}">{{country.Slug}}</td>
+                    <td scope="row" routerLink="/COVID19-per-country/{{country.Slug}}">{{country.Slug}}</td>
                     <td>{{country.NewConfirmed}}</td>
                     <td>{{country.TotalConfirmed}}</td>
                     <td>{{country.NewRecovered}}</td>

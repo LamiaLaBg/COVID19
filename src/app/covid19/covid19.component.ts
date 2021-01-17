@@ -28,6 +28,7 @@ export class Covid19Component implements OnInit {
 
   lackOfInfoBarChart:boolean=true;
   
+
   //pie chart
   doughnutChartLabels: Label[] = ['Dead Cases', 'Recovered Cases', 'Active Cases'];
   doughnutChartData: any;
@@ -59,7 +60,7 @@ export class Covid19Component implements OnInit {
   url_perDay_covid!: string;
   url_since_13_April!: string;
 
-  //curb chart
+  //curve chart
   lineChartData: ChartDataSets[] = [];
 
   lineChartLabels: Label[] = [];
@@ -67,6 +68,7 @@ export class Covid19Component implements OnInit {
   lineChartOptions = {
     responsive: true,
   };
+
 
   lineChartColors: Color[] = [
     {
@@ -83,6 +85,7 @@ export class Covid19Component implements OnInit {
   constructor(public covid19Service: Covid19Service, private datePipe: DatePipe, public router: Router) { }
 
   ngOnInit(): void {
+    
     this.user = this.covid19Service.getUser();
     this.covid19Service.loadingCovid19Summary();
     this.covid19Service.getCountry().subscribe(countries=>{
@@ -108,11 +111,10 @@ export class Covid19Component implements OnInit {
         this.TotalRecovered_perc= (parseInt(this.global.TotalRecovered)/this.TotalCases)*100
         this.ActiveCases_perc= (parseInt(this.global.ActiveCases)/this.TotalCases)*100
         this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc ]];
-        this.isDataLoaded=true;
+        
     });
 
     //the last 7 days data in a chart
-    
     this.Date_7 = new Date(Date.now() - 24 * 60 * 60 * 1000)
     this.Date_7=this.datePipe.transform(this.Date_7,"yyyy-MM-dd")
     this.Date_6=new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
@@ -130,8 +132,11 @@ export class Covid19Component implements OnInit {
 
 
     //curb since 13 april
-    this.url_since_13_April ="https://api.covid19api.com/world?from=2020-10-13T00:00:00Z&to=2020-12-15T00:00:00Z"
-    //this.url_since_13_April ="https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to="+this.Date_7+"T00:00:00Z"
+    //this.url_since_13_April ="https://api.covid19api.com/world?from=2021-01-01T00:00:00Z&to=2021-01-01T00:00:00Z"
+    
+    this.url_since_13_April ="https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to="+this.Date_7+"T00:00:00Z"
+    console.log(this.url_since_13_April);
+    
     this.covid19Service.getCovid19PerDay(this.url_since_13_April).subscribe(data_ => {
       try{
         let i=0;
@@ -160,10 +165,10 @@ export class Covid19Component implements OnInit {
         {data: this.tabRecovered, label: 'Daily Recovered'},
         {data: this.tabNewCases, label: 'Daily New Cases'},
       ];
-      console.log(this.barChartData)
+      
+      
     });
     
-
 
     //bar chart 7 last days
     this.url_perDay_covid="https://api.covid19api.com/world?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
@@ -180,7 +185,7 @@ export class Covid19Component implements OnInit {
           i++;
         }
         let j=0;
-        while(this.tabDeaths.length<7){
+        while(this.tabDeaths7.length<7){
           this.tabDeaths7.push(0);
           this.tabNewCases7.push(0);
           this.tabRecovered7.push(0);
@@ -202,8 +207,8 @@ export class Covid19Component implements OnInit {
       console.log(this.barChartData)
     });
     
-    
-    
+
+    this.isDataLoaded=true;
   }
 
   showSummary() {
@@ -216,6 +221,7 @@ export class Covid19Component implements OnInit {
           //Document.getElementbyId('countryname').innerHTML=this.data1.Countries[0].Country
       });
   }
+
   showCountries(){
   }
 
@@ -240,7 +246,5 @@ export class Covid19Component implements OnInit {
         console.log("TotalRecovered_perc",Math.floor(TotalRecovered_perc))
         console.log("ActiveCases_perc",Math.ceil(ActiveCases_perc))
       });
-      
   }
-
 }

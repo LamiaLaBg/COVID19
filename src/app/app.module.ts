@@ -10,8 +10,10 @@ import { Covid19PerCountyComponent } from './covid19-per-county/covid19-per-coun
 import { NewsComponent } from './news/news.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import {DatePipe} from '@angular/common';
+import { DatePipe} from '@angular/common';
 import { Covid19Service } from './covid19.service';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { Covid19Service } from './covid19.service';
     AngularFirestoreModule,
     HttpClientModule,
     ChartsModule,
+    MDBBootstrapModule.forRoot(),
+    DataTablesModule,
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

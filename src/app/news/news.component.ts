@@ -10,6 +10,7 @@ import { User } from '../user.model';
 export class NewsComponent implements OnInit {
 
   user: User;
+  elements: any = [];
 
   constructor(public covid19Service: Covid19Service) { }
 

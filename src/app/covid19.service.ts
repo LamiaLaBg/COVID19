@@ -88,13 +88,15 @@ export class Covid19Service {
               Slug: data1.Slug,
               NewConfirmed: data1.NewConfirmed,
               TotalConfirmed: data1.TotalConfirmed,
+              ActiveCases: data1.TotalConfirmed - data1.TotalDeaths -data1.TotalRecovered,
               NewDeaths: data1.NewDeaths,
               TotalDeaths: data1.TotalDeaths,
+              MortalityRate: (data1.TotalDeaths/data1.TotalConfirmed)*100,
               NewRecovered: data1.NewRecovered,
               TotalRecovered: data1.TotalRecovered,
+              RecoveryRate: (data1.TotalRecovered/data1.TotalConfirmed)*100,
               Date: data1.Date,
             }
-            
             localStorage.setItem('countries', JSON.stringify(this.country));
             this.updateCovid19Summary();
           }
@@ -115,10 +117,13 @@ export class Covid19Service {
       Slug: this.country.Slug,
       NewConfirmed: this.country.NewConfirmed,
       TotalConfirmed: this.country.TotalConfirmed,
+      ActiveCases: this.country.ActiveCases,
       NewDeaths: this.country.NewDeaths,
       TotalDeaths: this.country.TotalDeaths,
+      MortalityRate: this.country.MortalityRate,
       NewRecovered: this.country.NewRecovered,
       TotalRecovered: this.country.TotalRecovered,
+      RecoveryRate: this.country.RecoveryRate,
       Date: this.country.Date,
     },{merge: true});// to update if the data changed
   }
@@ -133,6 +138,9 @@ export class Covid19Service {
   getCountry(){
     return this.firestore.collection("countries").valueChanges();// get the modified values
   }
+  getCountrybySlug(slug: String){
+    this.firestore.collection("countries", ref => ref.where("Slug", "==", slug)).valueChanges();// get the modified values
+  }
 
   countryUploaded(): boolean{
     return JSON.parse(localStorage.getItem("countries")) != null;
@@ -140,9 +148,11 @@ export class Covid19Service {
 
   /// Per country
 
+
   getCovid19PerDay(url_perDay_covid: string): Observable<any> {
     return this.http.get(url_perDay_covid)
   }
+
 
 
 
