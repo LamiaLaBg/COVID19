@@ -37,7 +37,7 @@
     <body *ngIf="isDataLoaded">
         
         <!--bar chart-->
-        
+        <h1>Corona Virus Summary {{country_page.displayName}}</h1>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -71,8 +71,22 @@
         </table>
         
 
-         <!--bar chart-->
-        <div *ngIf="lackOfInfo" lass="chart-wrapper">
+         
+         <!--pie chart-->
+        <h1>Corona Virus Cases Distribution in {{country_page.displayName}}</h1>
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+        
+
+        
+        <!--bar chart-->
+        <h1>Daily Corona Virus Cases in {{country_page.displayName}}</h1>
+        <div *ngIf="lackOfInfo" lass="chart-wrapper" >
             <canvas baseChart 
             [datasets]="barChartData"
             [labels]="barChartLabels"
@@ -85,16 +99,9 @@
         <div *ngIf="!lackOfInfo" lass="chart-wrapper">
             <h1 class="text-center">sorry the seven earlier days data are missing</h1>
         </div>
-        <!--pie chart-->
-        <div class="chart-wrapper">
-            <canvas baseChart 
-            [data]="doughnutChartData"
-            [labels]="doughnutChartLabels"
-            [chartType]="doughnutChartType">
-          </canvas>
-        </div>
 
         <!--line chart-->
+        <h1>Total Corona Virus Cases in {{country_page.displayName}}</h1>
         <div  class="chart-wrapper">
             <canvas baseChart 
                 [datasets]="lineChartData" 
@@ -132,7 +139,7 @@
     </div>
 
     <footer id = "footer">
-        <p href="https://covid19api.com/"> Data Source: Johns Hpkins CSSE</p>
+        <p><a href="https://covid19api.com/" title="covidapi">Data Source: Johns Hpkins CSSE</a></p>
     </footer>
     <!--- ajouter commentaire + pour l'eligibilité créer un varibale eligible --->
 
