@@ -14,6 +14,7 @@ import { DatePipe} from '@angular/common';
 import { Covid19Service } from './covid19.service';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { DataTablesModule } from 'angular-datatables';
+import { FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { DataTablesModule } from 'angular-datatables';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,

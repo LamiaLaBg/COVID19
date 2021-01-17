@@ -7,6 +7,7 @@ import { Router } from '@angular/router'; //import router
 import {DatePipe} from '@angular/common';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Color, Label, MultiDataSet } from 'ng2-charts';
+import { News } from '../news.model';
 
 @Component({
   selector: 'app-covid19',
@@ -15,6 +16,8 @@ import { Color, Label, MultiDataSet } from 'ng2-charts';
 })
 export class Covid19Component implements OnInit {
   user!: User;
+  news!: News[];
+  isSignedUp: boolean = false;//to know if the user is signed up
   data1: any;
   data: any;
   countries: any;
@@ -24,7 +27,7 @@ export class Covid19Component implements OnInit {
   TotalDeaths_perc:any;
   TotalRecovered_perc:any;
   ActiveCases_perc:any;
-  isDataLoaded=false;
+  isDataLoaded:boolean=false;
 
   lackOfInfoBarChart:boolean=true;
   
@@ -49,6 +52,7 @@ export class Covid19Component implements OnInit {
   tabDeaths7:any=[];
   tabRecovered7:any=[];
   tabNewCases7:any=[];
+
 
   Date_7 : any;
   Date_6 : any;
@@ -81,12 +85,44 @@ export class Covid19Component implements OnInit {
   lineChartPlugins:any = [];
   lineChartType = 'line';
 
-  
+  //define worldwild news tab
+  worldWideNews: News[]=[];
+
+
   constructor(public covid19Service: Covid19Service, private datePipe: DatePipe, public router: Router) { }
 
   ngOnInit(): void {
     
     this.user = this.covid19Service.getUser();
+    this.covid19Service.getNews().subscribe((news)=>{
+      this.news=news as News[];
+      this.worldWideNews=[];
+      console.log("resultats= "+this.news);
+      for (let i=0; i<this.news.length; i++){
+        console.log("resultatsi= "+this.news[i]);
+        console.log("resultatsi= "+this.news[i].country);
+        
+        try{
+          console.log("length= "+this.news.length);
+          if (this.news[i].country=="World Wide"){
+            //console.log(this.news[i].country);
+            
+            this.worldWideNews.push(this.news[i])
+            console.log("resultats tab= "+this.worldWideNews.length);
+          };
+        }catch(e){
+          console.error(e);
+        }
+        
+      };
+    });
+    
+    
+    if (this.user==null){
+      this.isSignedUp=false;
+    }else{
+      this.isSignedUp=true;
+    }
     this.covid19Service.loadingCovid19Summary();
     this.covid19Service.getCountry().subscribe(countries=>{
       this.countries=countries;
@@ -165,8 +201,6 @@ export class Covid19Component implements OnInit {
         {data: this.tabRecovered, label: 'Daily Recovered'},
         {data: this.tabNewCases, label: 'Daily New Cases'},
       ];
-      
-      
     });
     
 
@@ -206,10 +240,22 @@ export class Covid19Component implements OnInit {
       ];
       console.log(this.barChartData)
     });
-    
-
     this.isDataLoaded=true;
   }
+
+/*
+  getWorldWideNews(){
+    for (let i=0; i<this.news.length; i++){
+      if (this.news[i].country=="World Wide"){
+        console.log(this.news[i].country);
+        this.worldWideNews.push(this.news[i])
+      };
+      console.log(this.news[i].country);
+    };
+  }
+  */
+
+
 
   showSummary() {
     this.covid19Service.getCovid19Summary()
@@ -222,8 +268,7 @@ export class Covid19Component implements OnInit {
       });
   }
 
-  showCountries(){
-  }
+  
 
   showGlobal(){
     this.covid19Service.getCovid19Summary()

@@ -8,17 +8,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Country } from './country.model';
 import { User } from './user.model';
+import { News } from './news.model';
 import { Global } from './global.model';
+import { NewsComponent } from './news/news.component';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class Covid19Service {
 
   private user: User;
   private country: Country;
   private data: any;
   private data1:any;
+  private news: News;
 
   url_covid19_summary="https://api.covid19api.com/summary"
   //dataSummary: any;
@@ -31,7 +35,8 @@ export class Covid19Service {
     this.user={
       uid: credentials.user.uid,
       displayName: credentials.user.displayName,
-      email: credentials.user.email
+      email: credentials.user.email,
+      eligible: true,
     };
     localStorage.setItem('users', JSON.stringify(this.user));
     //this.updateCovid19Summary()
@@ -44,15 +49,22 @@ export class Covid19Service {
       uid: this.user.uid,
       displayName: this.user.displayName,
       email: this.user.email,
+      eligible: this.user.eligible
     },{merge: true});// to update if the user already exists
   }
 
   getUser(){
     if(this.user == null && this.userSignedIn()){
       this.user = JSON.parse(localStorage.getItem("users"));
+      //this.user = this.firestore.collection("users").doc(this.user.uid).valueChanges();
     }
     return this.user;
   }
+  
+  getUserInfo(user_uid:string){
+    return this.firestore.collection("users").doc(user_uid).valueChanges();//peut etre ajouter un order by
+  }
+  
 
   userSignedIn(): boolean{
     return JSON.parse(localStorage.getItem("users")) != null;
@@ -65,6 +77,25 @@ export class Covid19Service {
     await this.router.navigate(["COVID19"]);
     location.reload();
   }
+
+  userAddNews(_date:string, _description:string, _country:string){
+    this.news={
+      useruid:this.user.uid,
+      userName: this.user.displayName,
+      userEmail: this.user.email,
+      date: _date,
+      description: _description,
+      country: _country,
+    }
+    this.firestore.collection("news").add(this.news);
+    //localStorage.setItem('news', JSON.stringify(this.news));
+    return this.news
+  }
+
+  getNews(){
+    return this.firestore.collection("news").valueChanges();//peut etre ajouter un order by
+  }
+
 
   async loadingCovid19Summary(){
     await this.getCovid19Summary()
@@ -147,13 +178,13 @@ export class Covid19Service {
   }
 
   /// Per country
-
-
   getCovid19PerDay(url_perDay_covid: string): Observable<any> {
     return this.http.get(url_perDay_covid)
   }
 
 
+
+  
 
 
 
@@ -192,6 +223,7 @@ export class Covid19Service {
 
 
 
+  //add the redirection the add News page
   addNews(){
     this.router.navigate(["news"]);
   }

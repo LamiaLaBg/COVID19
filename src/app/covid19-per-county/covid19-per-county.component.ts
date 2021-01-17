@@ -9,6 +9,7 @@ import {DatePipe} from '@angular/common';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Color, Label, MultiDataSet } from 'ng2-charts';
 import { Global} from '../global.model';
+import { News } from '../news.model';
 
 @Component({
   selector: 'app-covid19-per-county',
@@ -19,9 +20,10 @@ import { Global} from '../global.model';
 export class Covid19PerCountyComponent implements OnInit {
   id!: string;
   user!: User;
+  news!: News[];
   data1: any;
   data: any;
-  country: any;
+  country_page: any;
   countries: any;
   lackOfInfo: boolean = true;
   countryName!: string;
@@ -31,6 +33,7 @@ export class Covid19PerCountyComponent implements OnInit {
   TotalRecovered_perc:any;
   ActiveCases_perc:any;
   isDataLoaded=false;
+  isSignedUp:boolean= false;
   lackOfInfoBarChart!:boolean;
 
   current_country!: Country;
@@ -85,14 +88,24 @@ export class Covid19PerCountyComponent implements OnInit {
   lineChartLegend = true;
   lineChartPlugins:any = [];
   lineChartType = 'line';
+
+
+  //NEWS for the country
+  countryNews: News[]=[];
   
   constructor(public covid19Service: Covid19Service, private activatedRoute: ActivatedRoute,private http: HttpClient,private datePipe: DatePipe, router: Router) { 
   }
 
   ngOnInit(): void {
+    this.country_page=[]
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.user = this.covid19Service.getUser();
-
+    if (this.user==null){
+      this.isSignedUp=false;
+    }else{
+      this.isSignedUp=true;
+    }
+    
     /*
     //this.covid19Service.loadingCovid19Summary();
     */
@@ -103,14 +116,35 @@ export class Covid19PerCountyComponent implements OnInit {
     for (let i=0; i<countries.length; i++){
       if (this.countries[i].Slug==this.id){
         console.log("yoooo:"+ this.id);
-        
-        this.country=this.countries[i];
-        console.log(this.country);
+        this.country_page=this.countries[i];//define the country with Slug=this.id
+        console.log("yoooo:"+this.country_page);
+        break
       }
-    }
-    
-   
+    }   
    });
+   this.covid19Service.getNews().subscribe((news)=>{
+    this.news=news as News[];
+    this.countryNews=[];
+    console.log("resultats= "+this.news);
+    for (let i=0; i<this.news.length; i++){
+      console.log("resultatsi= "+this.news[i]);
+      console.log("resultatsi= "+this.news[i].country);
+      
+      try{
+        console.log("length= "+this.news.length);
+        if (this.news[i].country==this.country_page.Country){
+          //console.log(this.news[i].country);
+          
+          this.countryNews.push(this.news[i])
+          console.log("resultats tab= "+this.countryNews.length);
+        };
+      }catch(e){
+        console.error(e);
+      }
+    };
+  });
+
+
    /*
    this.covid19Service.getCountry().subscribe(countries=>{
      //this.country=countries.where("Slug",'==', this.id);
@@ -298,7 +332,7 @@ export class Covid19PerCountyComponent implements OnInit {
   showCountry(){
     console.log(this.covid19Service.getCountry())
     console.log(this.countries)
-    console.log(this.country)
+    console.log(this.country_page)
     console.log(this.covid19Service.getCovid19Summary())
     console.log(this.global)
     /*

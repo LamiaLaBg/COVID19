@@ -13,17 +13,14 @@
         -->
         
         <ul class="nav nav-pills">
-            <div class="nav-item">
+            <div *ngIf="isSignedUp"class="nav-item">
                 <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
             </div>
-            <div class="nav-item">
+            <div *ngIf="!isSignedUp" class="nav-item">
                 <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
             </div>
             <div class="nav-item">
-                <button class="btn btn-info" (click)="showCovidPerDay()">show covid per day</button>
-            </div>
-            <div class="nav-item">
-                <button class="btn btn-info" (click)="showId()">show Id</button>
+                <button class="btn btn-info" (click)="covid19Service.addNews()">Add news</button>
             </div>
         </ul>
         <div class="text-center">
@@ -54,17 +51,17 @@
             </thead>
             <tbody>
                 <tr >
-                    <td >{{country.TotalConfirmed}}</td>
-                    <td>{{country.NewConfirmed}}</td>
-                    <td>{{country.ActiveCases}}</td>
+                    <td >{{country_page.TotalConfirmed}}</td>
+                    <td>{{country_page.NewConfirmed}}</td>
+                    <td>{{country_page.ActiveCases}}</td>
 
-                    <td>{{country.TotalRecovered}}</td>
-                    <td>{{country.NewRecovered}}</td>
-                    <td>{{country.RecoveryRate}}</td>
+                    <td>{{country_page.TotalRecovered}}</td>
+                    <td>{{country_page.NewRecovered}}</td>
+                    <td>{{country_page.RecoveryRate}}</td>
 
-                    <td>{{country.TotalDeaths}}</td>
-                    <td>{{country.NewDeaths}}</td>
-                    <td>{{country.MortalityRate}}</td>
+                    <td>{{country_page.TotalDeaths}}</td>
+                    <td>{{country_page.NewDeaths}}</td>
+                    <td>{{country_page.MortalityRate}}</td>
                     
                 </tr>
             </tbody>
@@ -106,9 +103,30 @@
                 [plugins]="lineChartPlugins">
             </canvas>
         </div>
-
-        
     </body>
+
+    <div class="my-3">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>user name</th>
+                    <th>user email</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>country</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let new of countryNews " >
+                        <td>{{new.userName}}</td>
+                        <td>{{new.userEmail}}</td>
+                        <td>{{new.date}}</td>
+                        <td>{{new.description}}</td>
+                        <td>{{new.country}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <footer id = "footer">
         <p href="https://covid19api.com/"> Data Source: Johns Hpkins CSSE</p>
