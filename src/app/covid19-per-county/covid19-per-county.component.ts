@@ -24,7 +24,7 @@ export class Covid19PerCountyComponent implements OnInit {
   data1: any;
   data: any;
   country_page: any;
-  coutnryuid:any;
+  countryuid:any;
   countries: any;
   lackOfInfo: boolean = true;
   countryName!: string;
@@ -94,7 +94,7 @@ export class Covid19PerCountyComponent implements OnInit {
   constructor(public covid19Service: Covid19Service, private activatedRoute: ActivatedRoute,private http: HttpClient,private datePipe: DatePipe, router: Router) { 
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.country_page=[]
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.user = this.covid19Service.getUser();
@@ -104,42 +104,47 @@ export class Covid19PerCountyComponent implements OnInit {
       this.isSignedUp=true;
     }
     
-    /*
-    //this.covid19Service.loadingCovid19Summary();
-    */
-   this.covid19Service.getCountry().subscribe(countries=>{
-     // uploading the database if not in the firebase
-     if (countries.length==0){
+   await this.covid19Service.getCountry().subscribe(countries=>{
+      // uploading the database if not in the firebase
+      if (countries.length==0){
       this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
       console.log("uploading")
       }
-    
-    this.countries=countries;
-    //console.log("COUNTRies :::" + this.countries[0].Slug );
-    //TODO: A MODIFIER
-    for (let i=0; i<countries.length; i++){
-      if (this.countries[i].Slug==this.id){
-        this.country_page=this.countries[i];//define the country with Slug=this.id
-        this.coutnryuid=i;
-        break
+      
+      this.countries=countries;
+      //we can use queries
+      for (let i=0; i<countries.length; i++){
+        if (this.countries[i].Slug==this.id){
+          this.country_page=this.countries[i];//define the country with Slug=this.id
+          this.countryuid=i;
+          console.log(this.country_page.TotalDeaths);
+          break
+        }
       }
-    }
 
-  //updating the firebase if the datas are from yesterday
-    let dataBaseDate = new Date(this.country_page.Date)
-    let experitionDate=new Date(Date.now() - 24 * 60 * 60 * 1000);
-    if (experitionDate>=dataBaseDate){
-      console.log("before:" + dataBaseDate)
-      this.covid19Service.loadingCovid19Summary();
-      console.log("updading")
-      console.log("after" + new Date(this.country_page.Date))
-      this.country_page=this.countries[this.coutnryuid];
-    }
-    
+      //updating the firebase if the datas are from yesterday
+      let dataBaseDate = new Date(this.country_page.Date)
+      let experitionDate=new Date(Date.now() - 24 * 60 * 60 * 1000);
+      if (experitionDate>=dataBaseDate){
+        console.log("before:" + dataBaseDate)
+        this.covid19Service.loadingCovid19Summary();
+        console.log("updading")
+        console.log("after" + new Date(this.country_page.Date))
+      }
+      
+      this.country_page=this.countries[this.countryuid];
+      this.isDataLoaded=true;
+
+      //define the pie chart datas
+      this.TotalCases=parseInt(this.country_page.TotalConfirmed)
+      this.TotalDeaths_perc= (parseInt(this.country_page.TotalDeaths)/this.TotalCases)*100
+      this.TotalRecovered_perc= (parseInt(this.country_page.TotalRecovered)/this.TotalCases)*100
+      this.ActiveCases_perc= (parseInt(this.country_page.ActiveCases)/this.TotalCases)*100
+      this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc]];
+      console.log(this.country_page);
    });
 
-
-   this.covid19Service.getNews().subscribe((news)=>{
+    this.covid19Service.getNews().subscribe((news)=>{
     this.news=news as News[];
     for (let i=0; i<this.news.length; i++){
       try{
@@ -149,13 +154,16 @@ export class Covid19PerCountyComponent implements OnInit {
       }catch(e){
         console.error(e);
       }
-    };
-  });
+      };
+    });
 
-    //Pie chart
+    
+    
+    //this.doughnutChartData= [[50, 10, 40]];
+    /*
     this.covid19Service.getCovid19Summary()
       .subscribe(data => {
-        
+        // for each country
         this.data=data;
         this.global={
           TotalCases: this.data.Global.TotalConfirmed,
@@ -172,71 +180,66 @@ export class Covid19PerCountyComponent implements OnInit {
         this.TotalDeaths_perc= (parseInt(this.global.TotalDeaths)/this.TotalCases)*100
         this.TotalRecovered_perc= (parseInt(this.global.TotalRecovered)/this.TotalCases)*100
         this.ActiveCases_perc= (parseInt(this.global.ActiveCases)/this.TotalCases)*100
-        this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc ]];
-    });
-    /*
-    let id_split=this.id.replace(',', '').split(" ");
-    this.countryName=id_split[0]
-    for (let i=1; i<id_split.length; i++){
-      this.countryName+= "-"+id_split[i]
-    }
-    */
-    
-    //DATA for the last 7 days
-    this.Date_7 = new Date(Date.now() - 24 * 60 * 60 * 1000)
-    this.Date_7=this.datePipe.transform(this.Date_7,"yyyy-MM-dd")
-    this.Date_6=new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
-    this.Date_6=this.datePipe.transform(this.Date_6,"yyyy-MM-dd")
-    this.Date_5=new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
-    this.Date_5=this.datePipe.transform(this.Date_5,"yyyy-MM-dd")
-    this.Date_4=new Date(Date.now() - 4 * 24 * 60 * 60 * 1000)
-    this.Date_4=this.datePipe.transform(this.Date_4,"yyyy-MM-dd")
-    this.Date_3=new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
-    this.Date_3=this.datePipe.transform(this.Date_3,"yyyy-MM-dd")
-    this.Date_2=new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)
-    this.Date_2=this.datePipe.transform(this.Date_2,"yyyy-MM-dd")
-    this.Date_1=new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-    this.Date_1=this.datePipe.transform(this.Date_1,"yyyy-MM-dd")
 
-    // DATA forthe last 7 days
-    this.url_perDay_covid="https://api.covid19api.com/country/"+this.id+"?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
-    this.covid19Service.getCovid19PerDay(this.url_perDay_covid).subscribe(data_ => {
-      try{
-        let i=0;
-        
-        while(i < data_.length){
-          if (data_[i].Province==""){// The api return the results by province we only show the global values per country
-            this.tabDeaths7.push(parseInt(data_[i].Deaths))
-            this.tabNewCases7.push(parseInt(data_[i].Confirmed))
-            this.tabRecovered7.push(parseInt(data_[i].Recovered))
-          }
-          i++;
-        }
-        
-        let j=0;
-        while(this.tabDeaths7.length<7){
-          this.tabDeaths7.push(0);
-          this.tabNewCases7.push(0);
-          this.tabRecovered7.push(0);
-          j++
-        }
-        
-      }catch(e){
-        console.error(e)
-        this.lackOfInfoBarChart=false;
-        console.log("lack of information");
-      }
-      //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
-      //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]
+        this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc]];
+      });
+      */
       
-      this.barChartData = [
-        { data: this.tabDeaths7, label: 'Daily Death' },
-        {data: this.tabRecovered7, label: 'Daily Recovered'},
-        {data: this.tabNewCases7, label: 'Daily New Cases'},
-      ];      
-    });
-    this.barChartLabels=[this.Date_1, this.Date_2, this.Date_3, this.Date_4, this.Date_5,this.Date_6,this.Date_7]
-    
+      //DATA for the last 7 days
+      this.Date_7 = new Date(Date.now() - 24 * 60 * 60 * 1000)
+      this.Date_7=this.datePipe.transform(this.Date_7,"yyyy-MM-dd")
+      this.Date_6=new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)
+      this.Date_6=this.datePipe.transform(this.Date_6,"yyyy-MM-dd")
+      this.Date_5=new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)
+      this.Date_5=this.datePipe.transform(this.Date_5,"yyyy-MM-dd")
+      this.Date_4=new Date(Date.now() - 4 * 24 * 60 * 60 * 1000)
+      this.Date_4=this.datePipe.transform(this.Date_4,"yyyy-MM-dd")
+      this.Date_3=new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
+      this.Date_3=this.datePipe.transform(this.Date_3,"yyyy-MM-dd")
+      this.Date_2=new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)
+      this.Date_2=this.datePipe.transform(this.Date_2,"yyyy-MM-dd")
+      this.Date_1=new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      this.Date_1=this.datePipe.transform(this.Date_1,"yyyy-MM-dd")
+
+      // DATA forthe last 7 days
+      this.url_perDay_covid="https://api.covid19api.com/country/"+this.id+"?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
+      this.covid19Service.getCovid19PerDay(this.url_perDay_covid).subscribe(data_ => {
+        try{
+          let i=0;
+          
+          while(i < data_.length){
+            if (data_[i].Province==""){// The api return the results by province we only show the global values per country
+              this.tabDeaths7.push(parseInt(data_[i].Deaths))
+              this.tabNewCases7.push(parseInt(data_[i].Confirmed))
+              this.tabRecovered7.push(parseInt(data_[i].Recovered))
+            }
+            i++;
+          }
+          
+          let j=0;
+          while(this.tabDeaths7.length<7){
+            this.tabDeaths7.push(0);
+            this.tabNewCases7.push(0);
+            this.tabRecovered7.push(0);
+            j++
+          }
+          
+        }catch(e){
+          console.error(e)
+          this.lackOfInfoBarChart=false;
+          console.log("lack of information");
+        }
+        //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
+        //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]
+        
+        this.barChartData = [
+          { data: this.tabDeaths7, label: 'Daily Death' },
+          {data: this.tabRecovered7, label: 'Daily Recovered'},
+          {data: this.tabNewCases7, label: 'Daily New Cases'},
+        ];      
+      });
+      this.barChartLabels=[this.Date_1, this.Date_2, this.Date_3, this.Date_4, this.Date_5,this.Date_6,this.Date_7]
+      
 
 
 
@@ -278,7 +281,7 @@ export class Covid19PerCountyComponent implements OnInit {
         {data: this.tabNewCases, label: 'Daily New Cases'},
       ];
     });
-    this.isDataLoaded=true;
+    
   }
 
   showSummary() {

@@ -94,7 +94,14 @@ export class Covid19Component implements OnInit {
   ngOnInit(): void {
     this.isDataLoaded=false;
     this.user = this.covid19Service.getUser();
-    // get World wide news
+    // verify if the user is logged in
+    if (this.user==null){
+      this.isSignedUp=false;
+    }else{
+      this.isSignedUp=true;
+    }
+
+    // get World wide news 
     this.covid19Service.getNews().subscribe((news)=>{
       this.news=news as News[];
       this.worldWideNews=[];
@@ -109,13 +116,6 @@ export class Covid19Component implements OnInit {
       };
     });
     
-    
-    if (this.user==null){
-      this.isSignedUp=false;
-    }else{
-      this.isSignedUp=true;
-    }
-    
     //uploading datas if not in the database
     this.covid19Service.getCountry().subscribe(countries=>{
       if (countries.length==0){
@@ -125,13 +125,10 @@ export class Covid19Component implements OnInit {
       this.countries=countries;
     })
 
-    console.log("coucou");
-    //Pie chart
-   
+    //Pie chart   
     this.covid19Service.getCovid19Summary()
       .subscribe(data => {
         this.data=data;
-        console.log("data" + data)
         this.global={
           TotalCases: this.data.Global.TotalConfirmed,
           NewCases: this.data.Global.NewConfirmed,
@@ -151,7 +148,6 @@ export class Covid19Component implements OnInit {
         this.isDataLoaded=true;
     });
 
-    console.log("coucou");
     //the last 7 days data in a chart
     this.Date_7 = new Date(Date.now() - 24 * 60 * 60 * 1000)
     this.Date_7=this.datePipe.transform(this.Date_7,"yyyy-MM-dd")
@@ -243,6 +239,5 @@ export class Covid19Component implements OnInit {
         {data: this.tabNewCases7, label: 'Daily New Cases'},
       ];
     });
-    //this.isDataLoaded=true;
   }
 }
