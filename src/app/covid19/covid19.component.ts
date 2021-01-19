@@ -85,7 +85,6 @@ export class Covid19Component implements OnInit {
   lineChartPlugins:any = [];
   lineChartType: ChartType = 'line';
 
-  
   //define worldwild news tab
   worldWideNews: News[]=[];
 
