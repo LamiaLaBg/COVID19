@@ -24,6 +24,7 @@ export class Covid19PerCountyComponent implements OnInit {
   data1: any;
   data: any;
   country_page: any;
+  coutnryuid:any;
   countries: any;
   lackOfInfo: boolean = true;
   countryName!: string;
@@ -107,77 +108,49 @@ export class Covid19PerCountyComponent implements OnInit {
     //this.covid19Service.loadingCovid19Summary();
     */
    this.covid19Service.getCountry().subscribe(countries=>{
+     // uploading the database if not in the firebase
+     if (countries.length==0){
+      this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
+      console.log("uploading")
+      }
+    
     this.countries=countries;
     //console.log("COUNTRies :::" + this.countries[0].Slug );
     //TODO: A MODIFIER
     for (let i=0; i<countries.length; i++){
       if (this.countries[i].Slug==this.id){
-        console.log("yoooo:"+ this.id);
         this.country_page=this.countries[i];//define the country with Slug=this.id
-        console.log("yoooo:"+this.country_page);
+        this.coutnryuid=i;
         break
       }
-    }   
+    }
+
+  //updating the firebase if the datas are from yesterday
+    let dataBaseDate = new Date(this.country_page.Date)
+    let experitionDate=new Date(Date.now() - 24 * 60 * 60 * 1000);
+    if (experitionDate>=dataBaseDate){
+      console.log("before:" + dataBaseDate)
+      this.covid19Service.loadingCovid19Summary();
+      console.log("updading")
+      console.log("after" + new Date(this.country_page.Date))
+      this.country_page=this.countries[this.coutnryuid];
+    }
+    
    });
+
+
    this.covid19Service.getNews().subscribe((news)=>{
     this.news=news as News[];
-    this.countryNews=[];
-    console.log("resultats= "+this.news);
     for (let i=0; i<this.news.length; i++){
-      console.log("resultatsi= "+this.news[i]);
-      console.log("resultatsi= "+this.news[i].country);
-      
       try{
-        console.log("length= "+this.news.length);
         if (this.news[i].country==this.country_page.Country){
-          //console.log(this.news[i].country);
-          
           this.countryNews.push(this.news[i])
-          console.log("resultats tab= "+this.countryNews.length);
         };
       }catch(e){
         console.error(e);
       }
     };
   });
-
-
-   /*
-   this.covid19Service.getCountry().subscribe(countries=>{
-     //this.country=countries.where("Slug",'==', this.id);
-     this.countries=countries;
-    console.log("COUNTRies :::" + this.countries );
-    console.log("COUNTRY DEATHS" + this.country.properties);
-   });
-   */
-   
-
-    //this.current_country=countries.where("countries.Slug","==", "this.id");
-    //this.current_country=countries.orderByChild("Slug").equalTo(this.id);
-    //return this.firestore.collection("users")
-  //.doc(this.user.uid).collection("expenses", ref => ref.orderBy('date', 'asc')).valueChanges();
-
-   /*
-    this.covid19Service.getCountrybySlug(this.id).subscribe((country)=>{
-      this.country=country as Country[];
-      console.log("COUNTRY :::" + this.country );
-      console.log("COUNTRY DEATHS" + this.country.properties);
-      //this.current_country=countries.where("countries.Slug","==", "this.id");
-      //this.current_country=countries.orderByChild("Slug").equalTo(this.id);
-      //return this.firestore.collection("users")
-    //.doc(this.user.uid).collection("expenses", ref => ref.orderBy('date', 'asc')).valueChanges();
-    
-
-      //console.log("this.current_country : "+this.current_country)
-      /*
-      this.TotalCases=parseInt(this.countries.TotalCases)
-      this.TotalDeaths_perc= (parseInt(this.global.TotalDeaths)/this.TotalCases)*100
-      this.TotalRecovered_perc= (parseInt(this.global.TotalRecovered)/this.TotalCases)*100
-      this.ActiveCases_perc= (parseInt(this.global.ActiveCases)/this.TotalCases)*100
-      this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc ]];
-      
-    });
-    */
 
     //Pie chart
     this.covid19Service.getCovid19Summary()
@@ -228,16 +201,11 @@ export class Covid19PerCountyComponent implements OnInit {
     // DATA forthe last 7 days
     this.url_perDay_covid="https://api.covid19api.com/country/"+this.id+"?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
     this.covid19Service.getCovid19PerDay(this.url_perDay_covid).subscribe(data_ => {
-      console.log(data_.length);
-      
       try{
         let i=0;
         
         while(i < data_.length){
-          if (data_[i].Province==""){
-            console.log(parseInt(data_[i].Deaths));
-            //console.log(data_)
-            console.log(parseInt(i + " : " + data_[i].Deaths))
+          if (data_[i].Province==""){// The api return the results by province we only show the global values per country
             this.tabDeaths7.push(parseInt(data_[i].Deaths))
             this.tabNewCases7.push(parseInt(data_[i].Confirmed))
             this.tabRecovered7.push(parseInt(data_[i].Recovered))
@@ -285,18 +253,15 @@ export class Covid19PerCountyComponent implements OnInit {
             this.tabDeaths.push(parseInt(data_[i].Deaths))
             this.tabNewCases.push(parseInt(data_[i].Confirmed))
             this.tabRecovered.push(parseInt(data_[i].Recovered))
-            //console.log(parseInt(data_[i].Deaths));
             nbData13April++;
           }
           i++;
         }
-        //console.log(nbData13April);
       }catch(error){
         console.error("error")
         this.lackOfInfoBarChart=false;
         console.log("lack of information");
       }
-      console.log(nbData13April);
       
       //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
       //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]

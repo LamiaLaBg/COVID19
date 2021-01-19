@@ -46,8 +46,6 @@ export class NewsComponent implements OnInit {
         this.isEligible= this.userInfo.eligible;//get updated data of user for eligibility
       });
     }
-    
-
 
     this.covid19Service.getCountry().subscribe(countries=>{
       this.countries=countries;

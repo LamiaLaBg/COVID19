@@ -5,12 +5,12 @@
     </head>
     
     <header>
-        <!---créer une navbar avec signin/signout
+        <!---créer une navbar avec signin/signout-->
         
         <div class="col-sm-6">
             <h3>{{user.displayName}}</h3>
         </div>
-        -->
+        
         
         <ul class="nav nav-pills">
             <div *ngIf="isSignedUp"class="nav-item">
@@ -37,7 +37,7 @@
     <body *ngIf="isDataLoaded">
         
         <!--bar chart-->
-        <h1>Corona Virus Summary {{country_page.displayName}}</h1>
+        <h3>Corona Virus Summary {{country_page.Country}}</h3>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -73,7 +73,7 @@
 
          
          <!--pie chart-->
-        <h1>Corona Virus Cases Distribution in {{country_page.displayName}}</h1>
+        <h3>Corona Virus Cases Distribution in {{country_page.Country}}</h3>
         <div class="chart-wrapper">
             <canvas baseChart 
             [data]="doughnutChartData"
@@ -85,7 +85,7 @@
 
         
         <!--bar chart-->
-        <h1>Daily Corona Virus Cases in {{country_page.displayName}}</h1>
+        <h3>Daily Corona Virus Cases in {{country_page.Country}}</h3>
         <div *ngIf="lackOfInfo" lass="chart-wrapper" >
             <canvas baseChart 
             [datasets]="barChartData"
@@ -101,7 +101,7 @@
         </div>
 
         <!--line chart-->
-        <h1>Total Corona Virus Cases in {{country_page.displayName}}</h1>
+        <h3>Total Corona Virus Cases in {{country_page.Country}}</h3>
         <div  class="chart-wrapper">
             <canvas baseChart 
                 [datasets]="lineChartData" 

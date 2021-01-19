@@ -92,23 +92,16 @@ export class Covid19Component implements OnInit {
   constructor(public covid19Service: Covid19Service, private datePipe: DatePipe, public router: Router) { }
 
   ngOnInit(): void {
-    
+    this.isDataLoaded=false;
     this.user = this.covid19Service.getUser();
+    // get World wide news
     this.covid19Service.getNews().subscribe((news)=>{
       this.news=news as News[];
       this.worldWideNews=[];
-      console.log("resultats= "+this.news);
       for (let i=0; i<this.news.length; i++){
-        console.log("resultatsi= "+this.news[i]);
-        console.log("resultatsi= "+this.news[i].country);
-        
         try{
-          console.log("length= "+this.news.length);
           if (this.news[i].country=="World Wide"){
-            //console.log(this.news[i].country);
-            
             this.worldWideNews.push(this.news[i])
-            console.log("resultats tab= "+this.worldWideNews.length);
           };
         }catch(e){
           console.error(e);
@@ -122,14 +115,23 @@ export class Covid19Component implements OnInit {
     }else{
       this.isSignedUp=true;
     }
-    this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
+    
+    //uploading datas if not in the database
     this.covid19Service.getCountry().subscribe(countries=>{
+      if (countries.length==0){
+        this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
+        console.log("uploading")
+      }
       this.countries=countries;
     })
+
+    console.log("coucou");
     //Pie chart
+   
     this.covid19Service.getCovid19Summary()
       .subscribe(data => {
         this.data=data;
+        console.log("data" + data)
         this.global={
           TotalCases: this.data.Global.TotalConfirmed,
           NewCases: this.data.Global.NewConfirmed,
@@ -146,9 +148,10 @@ export class Covid19Component implements OnInit {
         this.TotalRecovered_perc= (parseInt(this.global.TotalRecovered)/this.TotalCases)*100
         this.ActiveCases_perc= (parseInt(this.global.ActiveCases)/this.TotalCases)*100
         this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc ]];
-        
+        this.isDataLoaded=true;
     });
 
+    console.log("coucou");
     //the last 7 days data in a chart
     this.Date_7 = new Date(Date.now() - 24 * 60 * 60 * 1000)
     this.Date_7=this.datePipe.transform(this.Date_7,"yyyy-MM-dd")
@@ -181,6 +184,8 @@ export class Covid19Component implements OnInit {
           this.tabRecovered.push(parseInt(data_[i].TotalRecovered))
           i++;
         }
+
+
       }catch(error){
         console.error("error")
         this.lackOfInfoBarChart=false;
@@ -237,56 +242,7 @@ export class Covid19Component implements OnInit {
         {data: this.tabRecovered7, label: 'Daily Recovered'},
         {data: this.tabNewCases7, label: 'Daily New Cases'},
       ];
-      console.log(this.barChartData)
     });
-    this.isDataLoaded=true;
-  }
-
-/*
-  getWorldWideNews(){
-    for (let i=0; i<this.news.length; i++){
-      if (this.news[i].country=="World Wide"){
-        console.log(this.news[i].country);
-        this.worldWideNews.push(this.news[i])
-      };
-      console.log(this.news[i].country);
-    };
-  }
-  */
-
-
-
-  showSummary() {
-    this.covid19Service.getCovid19Summary()
-      .subscribe(data => {
-          this.data1=data;
-          let countryname=this.data1.Countries[0].Country
-          console.log("data",this.data1)
-          console.log("countries", this.data1.Countries[0])
-          //Document.getElementbyId('countryname').innerHTML=this.data1.Countries[0].Country
-      });
-  }
-
-  showGlobal(){
-    this.covid19Service.getCovid19Summary()
-      .subscribe(data => {
-        this.data=data;
-        console.log("TotalCases",this.data.Global.TotalConfirmed)
-        console.log("NewCases",this.data.Global.NewConfirmed)
-        console.log("ActiveCases", parseInt(this.data.Global.TotalConfirmed) - parseInt(this.data.Global.TotalDeaths)-parseInt(this.data.Global.TotalRecovered))
-        console.log("TotalRecovered",this.data.Global.TotalRecovered)
-        console.log("NewRecovered",this.data.Global.NewRecovered)
-        console.log("RecoveryRate")
-        console.log("TotalDeaths",this.data.Global.TotalDeaths)
-        console.log("NewDeaths",this.data.Global.NewDeaths)
-        console.log("MortalityRate")
-        let Total=parseInt(this.global.TotalCases)
-        let TotalDeaths_perc= (parseInt(this.global.TotalDeaths)/Total)*100
-        let TotalRecovered_perc= (parseInt(this.global.TotalRecovered)/Total)*100
-        let ActiveCases_perc= (parseInt(this.global.ActiveCases)/Total)*100
-        console.log("TotalDeaths_perc",Math.floor(TotalDeaths_perc))
-        console.log("TotalRecovered_perc",Math.floor(TotalRecovered_perc))
-        console.log("ActiveCases_perc",Math.ceil(ActiveCases_perc))
-      });
+    //this.isDataLoaded=true;
   }
 }

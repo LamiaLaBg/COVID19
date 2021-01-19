@@ -41,7 +41,8 @@ export class Covid19Service {
     localStorage.setItem('users', JSON.stringify(this.user));
     //this.updateCovid19Summary()
     this.updateUserData();
-    this.router.navigate([""]); // TODO: à modifier
+    window.location.reload();// reloading the page
+    //this.router.navigate(["COVID19"]); // TODO: à modifier
   }
   
   private updateUserData(){
