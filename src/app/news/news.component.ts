@@ -22,7 +22,6 @@ export class NewsComponent implements OnInit {
   description:string;
   country:string;
 
-
   countries: any;
   userInfo: User;
 
