@@ -14,14 +14,15 @@
     </div>
     
     <div *ngIf="isSignedUp" class="row">
-        <div  class="col-sm-6">
+        <div  class="col-sm-12">
             <h3>{{user.displayName}}</h3>
         </div>
-        <div class="col-sm-6 text-right">
-            <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
-        </div>
+        
         <div class="nav-item">
             <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
+        </div>
+        <div class="nav-item">
+            <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
         </div>
     </div>
     

@@ -4,6 +4,14 @@
     </head>
     
     <header>
+        <div class="text-center">
+            <img class="img-fluid"
+            src="https://firebasestorage.googleapis.com/v0/b/covid19-69f30.appspot.com/o/covid.png?alt=media&token=42896101-32af-484d-b0ee-a5a2eb8f7e0a" 
+            alt="covid" >
+            <h1>COVID19</h1>
+            <p>Live Updates and Statistics</p>
+        </div>
+
         <!---créer une navbar avec signin/signout-->
         <div *ngIf="isSignedUp" class="col-sm-6">
             <h3>{{user.displayName}}</h3>
@@ -23,20 +31,13 @@
             </div>
         </ul>
 
-        <div class="text-center">
-            <img 
-            style= "width: 5% "
-            src="https://firebasestorage.googleapis.com/v0/b/covid19-69f30.appspot.com/o/covid.png?alt=media&token=42896101-32af-484d-b0ee-a5a2eb8f7e0a" 
-            alt="covid" >
-            <h1>COVID19</h1>
-            <p>Live Updates and Statistics</p>
-        </div>
+        
     </header>
-    <body *ngIf="isDataLoaded">
+    <body *ngIf="isDataLoaded" class="center responsive">
         
-        <h1>Corona Virus Summary Worldwide</h1>
-        
-        <table class="table table-bordered table-striped" >
+        <h1 class="center">Corona Virus Summary Worldwide</h1>
+        <!--
+        <table class="table table-bordered table-striped center" >
             <thead>
                 <tr>
                     <th>Total Cases</th>
@@ -62,6 +63,58 @@
                     <td>{{global.NewDeaths}}</td>
                     <td>{{global.MortalityRate}}</td>
                 </tr>
+            </tbody>
+        </table>
+    -->
+        <table class="table table-bordered table-striped center" >
+            
+            <tbody >
+                <tr>
+                    <th scope="row">Total Cases</th>
+                    <td >{{global.TotalCases}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">New Cases</th>
+                    <td >{{global.NewCases}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Active Cases</th>
+                    <td >{{global.TotalRecovered}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Recovered</th>
+                    <td >{{global.NewRecovered}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">New Recovered</th>
+                    <td >{{global.TotalCases}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Recovery Rate</th>
+                    <td>{{global.RecoveryRate}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Deaths</th>
+                    <td>{{global.TotalDeaths}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">New Deaths</th>
+                    <td>{{global.NewDeaths}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Mortality Rate</th>
+                    <td>{{global.MortalityRate}}</td>
+                </tr>    
+                <!--
+                <td>{{global.NewCases}}</td>
+                <td>{{global.ActiveCases}}</td>
+                <td>{{global.TotalRecovered}}</td>
+                <td>{{global.NewRecovered}}</td>
+                <td>{{global.RecoveryRate}}</td>
+                <td>{{global.TotalDeaths}}</td>
+                <td>{{global.NewDeaths}}</td>
+                <td>{{global.MortalityRate}}</td>
+                -->
             </tbody>
         </table>
 
@@ -115,7 +168,8 @@
         <!--pour since 13 april chart https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
 
         <h1>Corona Virus Cases by Country</h1>
-        <table datatable class="table table-bordered table-striped">
+        <table datatable class="table table-striped table-bordered nowrap responsive" >
+            
             <thead>
                 <tr>
                     <th scope="col" sortable="name">Country</th>
@@ -143,7 +197,7 @@
         <!--NEWS-->
         <h1>News Worldwide</h1>
         <div class="my-3">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped responsive">
                 <thead>
                     <tr>
                         <th>user name</th>

@@ -6,7 +6,14 @@
     
     <header>
         <!---créer une navbar avec signin/signout-->
-        
+        <div class="text-center">
+            <img 
+            class="img-fluid"
+            src="https://firebasestorage.googleapis.com/v0/b/covid19-69f30.appspot.com/o/covid.png?alt=media&token=42896101-32af-484d-b0ee-a5a2eb8f7e0a" 
+            alt="covid" >
+            <h1>COVID19</h1>
+        </div>
+        </header>
         <div class="col-sm-6">
             <h3>{{user.displayName}}</h3>
         </div>
@@ -26,18 +33,11 @@
                 <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
             </div>
         </ul>
-        <div class="text-center">
-            <img 
-            style= "width: 5% "
-            src="https://firebasestorage.googleapis.com/v0/b/covid19-69f30.appspot.com/o/covid.png?alt=media&token=42896101-32af-484d-b0ee-a5a2eb8f7e0a" 
-            alt="covid" >
-            <h1>COVID19</h1>
-        </div>
-    </header>
+        
     <body *ngIf="isDataLoaded">
         
-        <!--bar chart-->
         <h3>Corona Virus Summary {{country_page.Country}}</h3>
+        <!--table chart
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -67,6 +67,58 @@
                     <td>{{country_page.MortalityRate}}</td>
                     
                 </tr>
+            </tbody>
+        </table>
+        -->
+        <table class="table table-bordered table-striped center" >
+            
+            <tbody >
+                <tr>
+                    <th scope="row">Total Cases</th>
+                    <td >{{country_page.TotalConfirmed}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">New Cases</th>
+                    <td >{{country_page.NewConfirmed}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Active Cases</th>
+                    <td >{{country_page.ActiveCases}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Recovered</th>
+                    <td >{{country_page.TotalRecovered}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">New Recovered</th>
+                    <td >{{country_page.NewRecovered}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Recovery Rate</th>
+                    <td>{{country_page.RecoveryRate}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Total Deaths</th>
+                    <td>{{country_page.TotalDeaths}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">New Deaths</th>
+                    <td>{{country_page.NewDeaths}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Mortality Rate</th>
+                    <td>{{country_page.MortalityRate}}</td>
+                </tr>    
+                <!--
+                <td>{{global.NewCases}}</td>
+                <td>{{global.ActiveCases}}</td>
+                <td>{{global.TotalRecovered}}</td>
+                <td>{{global.NewRecovered}}</td>
+                <td>{{global.RecoveryRate}}</td>
+                <td>{{global.TotalDeaths}}</td>
+                <td>{{global.NewDeaths}}</td>
+                <td>{{global.MortalityRate}}</td>
+                -->
             </tbody>
         </table>
         

@@ -203,6 +203,7 @@ export class Covid19PerCountyComponent implements OnInit {
 
       // DATA forthe last 7 days
       this.url_perDay_covid="https://api.covid19api.com/country/"+this.id+"?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
+      console.log("url7= " + this.url_perDay_covid )
       this.covid19Service.getCovid19PerDay(this.url_perDay_covid).subscribe(data_ => {
         try{
           let i=0;
@@ -212,6 +213,7 @@ export class Covid19PerCountyComponent implements OnInit {
               this.tabDeaths7.push(parseInt(data_[i].Deaths))
               this.tabNewCases7.push(parseInt(data_[i].Confirmed))
               this.tabRecovered7.push(parseInt(data_[i].Recovered))
+              console.log((data_[i].Recovered))
             }
             i++;
           }
