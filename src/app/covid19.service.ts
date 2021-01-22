@@ -134,11 +134,6 @@ export class Covid19Service {
           }
 
       });
-      //this.country=this.data.Countries[1]
-      console.log("countries", this.data1)
-      console.log("countries", this.country)
-    
-    
   }
   private updateCovid19Summary(){
     this.firestore.collection("countries").doc(this.country.uid).set({
