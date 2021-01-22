@@ -33,7 +33,7 @@
 
         
     </header>
-    <body *ngIf="isDataLoaded" class="center responsive">
+    <body *ngIf="isApiLoaded" class="center responsive">
         
         <h1 class="center">Corona Virus Summary Worldwide</h1>
         <!--
@@ -158,7 +158,7 @@
         <!--pour since 13 april chart https://api.covid19api.com/world?from=2020-12-31T00:00:00Z&to=2021-07-01T00:00:00Z-->
 
         <h1>Corona Virus Cases by Country</h1>
-        <table datatable class="table table-striped table-bordered nowrap responsive" >
+        <table *ngIf="isCollectioniLoaded" datatable class="table table-striped table-bordered nowrap responsive" >
             
             <thead>
                 <tr>
@@ -172,6 +172,26 @@
                 </tr>
             </thead>
             <tbody>
+                <!--
+                <tr>
+                    <td >0</td>
+                    <td>oofjzi</td>
+                    <td>efzef</td>
+                    <td>dfdfz</td>
+                    <td>ezfzef</td>
+                    <td>zefzef</td>
+                    <td>zefze</td>
+                </tr>
+                <tr>
+                    <td >1</td>
+                    <td>oofjzi</td>
+                    <td>efzef</td>
+                    <td>dfdfz</td>
+                    <td>ezfzef</td>
+                    <td>zefzef</td>
+                    <td>zefze</td>
+                </tr>
+                -->
                 <tr *ngFor="let country of countries">
                     <td scope="row" routerLink="/COVID19-per-country/{{country.Slug}}">{{country.Slug}}</td>
                     <td>{{country.NewConfirmed}}</td>
@@ -181,13 +201,14 @@
                     <td>{{country.NewDeaths}}</td>
                     <td>{{country.TotalDeaths}}</td>
                 </tr>
+                
             </tbody>
         </table>
 
         <!--NEWS-->
         <h1>News Worldwide</h1>
         <div class="my-3">
-            <table class="table table-bordered table-striped responsive">
+            <table *ngIf="isNewsLoaded" datatable class="table table-bordered table-striped responsive">
                 <thead>
                     <tr>
                         <th>user name</th>

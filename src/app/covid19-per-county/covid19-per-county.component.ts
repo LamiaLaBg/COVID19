@@ -33,8 +33,12 @@ export class Covid19PerCountyComponent implements OnInit {
   TotalDeaths_perc:any;
   TotalRecovered_perc:any;
   ActiveCases_perc:any;
+
+  isNewsLoaded:boolean=false;
   isDataLoaded=false;
   isSignedUp:boolean= false;
+
+  
   lackOfInfoBarChart!:boolean;
   tab_data_per_day:any = []
 
@@ -157,6 +161,7 @@ export class Covid19PerCountyComponent implements OnInit {
         console.error(e);
       }
       };
+      this.isNewsLoaded=true;
     });
 
     

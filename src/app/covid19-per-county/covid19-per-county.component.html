@@ -157,7 +157,7 @@
     </body>
 
     <div class="my-3">
-        <table class="table table-bordered table-striped">
+        <table *ngIf="isNewsLoaded" datatable class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>user name</th>

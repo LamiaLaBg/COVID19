@@ -134,6 +134,11 @@ export class Covid19Service {
           }
 
       });
+      //this.country=this.data.Countries[1]
+      console.log("countries", this.data1)
+      console.log("countries", this.country)
+    
+    
   }
   private updateCovid19Summary(){
     this.firestore.collection("countries").doc(this.country.uid).set({
@@ -193,21 +198,6 @@ export class Covid19Service {
           console.log("TotaDeaths",this.data.Global.TotaDeaths)
           console.log("NewDeaths",this.data.Global.NewDeaths)
           console.log("MortalityRate")
-
-          //we add info for each country
-          /*
-          this.country={
-            TotalCases: any;
-            NewCases: any;
-            ActiveCases: any;
-            TotalRecovered: any;
-            NewRecovered: any;
-            RecoveryRate:any;
-            TotalDeaths: any
-            NewDeaths:any;
-            MortalityRate:any;
-          }
-          */
       });
   }
 

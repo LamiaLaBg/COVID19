@@ -27,7 +27,11 @@ export class Covid19Component implements OnInit {
   TotalDeaths_perc:any;
   TotalRecovered_perc:any;
   ActiveCases_perc:any;
-  isDataLoaded:boolean=false;
+
+
+  isApiLoaded:boolean=false;
+  isCollectioniLoaded:boolean=false;
+  isNewsLoaded:boolean=false;
 
   lackOfInfoBarChart:boolean=true;
   
@@ -92,7 +96,6 @@ export class Covid19Component implements OnInit {
   constructor(public covid19Service: Covid19Service, private datePipe: DatePipe, public router: Router) { }
 
   ngOnInit(): void {
-    this.isDataLoaded=false;
     this.user = this.covid19Service.getUser();
     // verify if the user is logged in
     if (this.user==null){
@@ -114,15 +117,17 @@ export class Covid19Component implements OnInit {
           console.error(e);
         }
       };
+      this.isNewsLoaded=true;
     });
     
     //uploading datas if not in the database
     this.covid19Service.getCountry().subscribe(countries=>{
-      if (countries.length==0){
+      if (countries.length==0){//if the firbase doesn't contain countries collection
         this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
         console.log("uploading")
       }
       this.countries=countries;
+      this.isCollectioniLoaded=true;
     })
 
     //Pie chart   
@@ -145,7 +150,7 @@ export class Covid19Component implements OnInit {
         this.TotalRecovered_perc= (parseInt(this.global.TotalRecovered)/this.TotalCases)*100
         this.ActiveCases_perc= (parseInt(this.global.ActiveCases)/this.TotalCases)*100
         this.doughnutChartData= [[this.TotalDeaths_perc, this.TotalRecovered_perc, this.ActiveCases_perc ]];
-        this.isDataLoaded=true;
+        this.isApiLoaded=true;
     });
 
     //the last 7 days data in a chart
