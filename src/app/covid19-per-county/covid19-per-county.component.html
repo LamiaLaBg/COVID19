@@ -1,7 +1,7 @@
 <html>
 
     <head>
-        <h2> User No: {{id}}</h2> <!--https://api.covid19api.com/total/dayone/country/south-africa-->
+        <h2> User No: {{id}}</h2>
     </head>
     
     <header>
@@ -13,12 +13,13 @@
             alt="covid" >
             <h1>COVID19</h1>
         </div>
-    </header>
+    
+
         <div *ngIf="isSignedUp" class="col-sm-6">
             <h3>{{user.displayName}}</h3>
         </div>
         <ul class="nav nav-pills">
-           
+            
             <div *ngIf="isSignedUp"class="nav-item">
                 <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
             </div>
@@ -32,7 +33,7 @@
                 <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
             </div>
         </ul>
-        
+    </header>
     <body >
         
         <h3>Corona Virus Summary {{country_page.Country}}</h3>
