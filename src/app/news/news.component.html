@@ -64,60 +64,59 @@
         <div *ngIf="!isDataNewsuploaded">
             <p>information not loaded (surely because firebase quota exceeded)</p>
         </div>
-        
-        <!--If eligible (of course false if not signed up see .ts doc)-->
-        <!--News form-->
-        <div *ngIf="isEligible">
-            <h4>Add news</h4>
-            <form (ngSubmit)="useraddingNews()">
-            <div class="row mb-3">
-                <div class="col-md-6">
-                <label for="dateInput">Date</label>
-                <input
-                    type="date"
-                    id="dateInput"
-                    name="dateInput"
-                    class="form-control"
-                    [(ngModel)]="date"
-                    required
-                />
+        <div *ngIf="isSignedUp">
+            <!--If eligible (of course false if not signed up see .ts doc)-->
+            <!--News form-->
+            <div *ngIf="isEligible">
+                <h4>Add news</h4>
+                <form (ngSubmit)="useraddingNews()">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                    <label for="dateInput">Date</label>
+                    <input
+                        type="date"
+                        id="dateInput"
+                        name="dateInput"
+                        class="form-control"
+                        [(ngModel)]="date"
+                        required
+                    />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="countryInput">country</label>
+                        <select 
+                        id="countryInput"
+                        name="countryInput"
+                        class="form-control"
+                        placeholder="which country"
+                        [(ngModel)]="country"
+                        requiredclass="custom-select" >
+                            <option selected>Open this select menu</option>
+                            <option value="World Wide">World Wide</option>
+                            <option *ngFor="let country of countries" value={{country.Country}}>{{country.Country}}</option>
+                        </select>
+                    </div>
+                </div >
+                <div class="row mb-3">
+                    <div class="col-12">
+                    <label for="descriptionInput">Description</label>
+                    <input
+                        type="text"
+                        id="descriptionInput"
+                        name="descriptionInput"
+                        class="form-control"
+                        placeholder="What's your news ?"
+                        [(ngModel)]="description"
+                        required
+                    />
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="countryInput">country</label>
-                    <select 
-                    id="countryInput"
-                    name="countryInput"
-                    class="form-control"
-                    placeholder="which country"
-                    [(ngModel)]="country"
-                    requiredclass="custom-select" >
-                        <option selected>Open this select menu</option>
-                        <option value="World Wide">World Wide</option>
-                        <option *ngFor="let country of countries" value={{country.Country}}>{{country.Country}}</option>
-                    </select>
-                    
-                </div>
-                
-            </div >
-            <div class="row mb-3">
-                <div class="col-12">
-                <label for="descriptionInput">Description</label>
-                <input
-                    type="text"
-                    id="descriptionInput"
-                    name="descriptionInput"
-                    class="form-control"
-                    placeholder="What's your news ?"
-                    [(ngModel)]="description"
-                    required
-                />
-                </div>
+                <button class="btn btn-primary">Add</button>
+                </form>
             </div>
-            <button class="btn btn-primary">Add</button>
-            </form>
-        </div>
-        <div *ngIf="!isEligible"class="text-center">
-            <h1>Sorry you're not eligible contact the owner of the website (lamia salhi) to be granted the eligibility</h1>
+            <div *ngIf="!isEligible" class="text-center">
+                <h1>Sorry you're not eligible to add a news. Contact the owner of the website (lamia salhi) to be granted the eligibility</h1>
+            </div>
         </div>
     </body>
     <footer id = "footer">
