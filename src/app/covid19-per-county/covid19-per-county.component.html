@@ -33,60 +33,66 @@
             </div>
         </ul>
         
-    <body *ngIf="isDataLoaded">
+    <body >
         
         <h3>Corona Virus Summary {{country_page.Country}}</h3>
         <!--table chart-->
         <table class="table table-bordered table-striped center" >
             
-            <tbody >
+            <tbody *ngIf="isDataLoaded">
                 <tr>
-                    <th scope="row">Total Cases</th>
-                    <td >{{country_page.TotalConfirmed}}</td>
+                    <th class="table-warning"  scope="row">Total Cases</th>
+                    <td class="table-warning"  >{{country_page.TotalConfirmed}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">New Cases</th>
-                    <td >{{country_page.NewConfirmed}}</td>
+                    <th class="table-warning"  scope="row">New Cases</th>
+                    <td class="table-warning"  >{{country_page.NewConfirmed}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Active Cases</th>
-                    <td >{{country_page.ActiveCases}}</td>
+                    <th class="table-warning"  scope="row">Active Cases</th>
+                    <td class="table-warning"  >{{country_page.ActiveCases}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Total Recovered</th>
-                    <td >{{country_page.TotalRecovered}}</td>
+                    <th class="table-primary" scope="row">Total Recovered</th>
+                    <td class="table-primary" >{{country_page.TotalRecovered}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">New Recovered</th>
-                    <td >{{country_page.NewRecovered}}</td>
+                    <th class="table-primary" scope="row">New Recovered</th>
+                    <td class="table-primary" >{{country_page.NewRecovered}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Recovery Rate</th>
-                    <td>{{country_page.RecoveryRate}}%</td>
+                    <th class="table-primary" scope="row">Recovery Rate</th>
+                    <td class="table-primary">{{country_page.RecoveryRate}}%</td>
                 </tr>
                 <tr>
-                    <th scope="row">Total Deaths</th>
-                    <td>{{country_page.TotalDeaths}}</td>
+                    <th class="table-danger" scope="row">Total Deaths</th>
+                    <td class="table-danger" >{{country_page.TotalDeaths}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">New Deaths</th>
-                    <td>{{country_page.NewDeaths}}</td>
+                    <th  class="table-danger" scope="row">New Deaths</th>
+                    <td class="table-danger">{{country_page.NewDeaths}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Mortality Rate</th>
-                    <td>{{country_page.MortalityRate}}%</td>
+                    <th class="table-danger" scope="row">Mortality Rate</th>
+                    <td class="table-danger">{{country_page.MortalityRate}}%</td>
                 </tr>
             </tbody>
         </table>
+        <div *ngIf="!isDataLoaded">
+            <p>information not loaded (surely because firebase quota exceeded)</p>
+        </div>
          
          <!--pie chart-->
         <h3>Corona Virus Cases Distribution in {{country_page.Country}}</h3>
-        <div class="chart-wrapper">
+        <div *ngIf="isDataLoaded" class="chart-wrapper">
             <canvas baseChart 
             [data]="doughnutChartData"
             [labels]="doughnutChartLabels"
             [chartType]="doughnutChartType">
           </canvas>
+        </div>
+        <div *ngIf="!isDataLoaded">
+            <p>information not loaded (surely because firebase quota exceeded)</p>
         </div>
         
 
@@ -122,6 +128,7 @@
         </div>
     
         <!--news tab-->
+        <h3>News in {{country_page.Country}}</h3>
         <div class="my-3">
             <table *ngIf="isNewsLoaded" datatable class="table table-bordered table-striped">
                 <thead>
@@ -143,6 +150,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div *ngIf="!isNewsLoaded">
+            <p>information not loaded (surely because firebase quota exceeded)</p>
         </div>
     </body>
     <footer id = "footer">

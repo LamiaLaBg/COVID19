@@ -10,23 +10,6 @@ const routes: Routes = [
   {path: "COVID19-per-country/:id", component: Covid19PerCountyComponent },
   {path: "", pathMatch: "full",redirectTo:"COVID19" },
   {path: "**",redirectTo:"COVID19" },
-  /*
-  {
-
-    
-    path: '',
-    component: Covid19PerCountyComponent ,
-    children:[
-                {
-                  path:'/COVID19-per-country/:type', //:type is dynamic here
-                  component:Covid19PerCountyComponent ,
-                }
-              ]
-  }
-  */
-  
-  
-  
 ];
 
 @NgModule({

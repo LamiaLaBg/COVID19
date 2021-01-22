@@ -39,40 +39,40 @@
         <table class="table table-bordered table-striped center" >
             <tbody >
                 <tr>
-                    <th class="primary" scope="row">Total Cases</th>
-                    <td >{{global.TotalCases}}</td>
+                    <th class="table-warning" scope="row">Total Cases</th>
+                    <td class="table-warning">{{global.TotalCases}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">New Cases</th>
-                    <td >{{global.NewCases}}</td>
+                    <th class="table-warning" scope="row">New Cases</th>
+                    <td class="table-warning">{{global.NewCases}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Active Cases</th>
-                    <td >{{global.ActiveCases}}</td>
+                    <th  class="table-warning" scope="row">Active Cases</th>
+                    <td class="table-warning">{{global.ActiveCases}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Total Recovered</th>
-                    <td >{{global.TotalRecovered}}</td>
+                    <th class="table-primary" scope="row">Total Recovered</th>
+                    <td class="table-primary">{{global.TotalRecovered}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">New Recovered</th>
-                    <td >{{global.NewRecovered}}</td>
+                    <th class="table-primary" scope="row">New Recovered</th>
+                    <td class="table-primary">{{global.NewRecovered}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Recovery Rate</th>
-                    <td>{{global.RecoveryRate}}%</td>
+                    <th class="table-primary" scope="row">Recovery Rate</th>
+                    <td class="table-primary">{{global.RecoveryRate}}%</td>
                 </tr>
                 <tr>
-                    <th scope="row">Total Deaths</th>
-                    <td>{{global.TotalDeaths}}</td>
+                    <th class="table-danger" scope="row">Total Deaths</th>
+                    <td class="table-danger">{{global.TotalDeaths}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">New Deaths</th>
-                    <td>{{global.NewDeaths}}</td>
+                    <th class="table-danger"scope="row">New Deaths</th>
+                    <td class="table-danger">{{global.NewDeaths}}</td>
                 </tr>
                 <tr>
-                    <th scope="row">Mortality Rate</th>
-                    <td>{{global.MortalityRate}}%</td>
+                    <th class="table-danger"scope="row">Mortality Rate</th>
+                    <td class="table-danger">{{global.MortalityRate}}%</td>
                 </tr>
             </tbody>
         </table>
@@ -122,28 +122,31 @@
             
             <thead>
                 <tr>
-                    <th scope="col" sortable="name">Country</th>
-                    <th scope="col" sortable="name">New cases</th>
-                    <th scope="col" sortable="name"> Total Cases</th>
-                    <th scope="col" sortable="name">New recoveries</th>
-                    <th scope="col" sortable="name">Total recoveries</th>
-                    <th scope="col" sortable="name">New deaths</th>
-                    <th scope="col" sortable="name">Total deaths</th>
+                    <th class="table-secondary" scope="col" sortable="name">Country</th>
+                    <th class="table-warning" scope="col" sortable="name">New cases</th>
+                    <th class="table-warning" scope="col" sortable="name"> Total Cases</th>
+                    <th class="table-primary" scope="col" sortable="name">New recoveries</th>
+                    <th class="table-primary" scope="col" sortable="name">Total recoveries</th>
+                    <th class="table-danger" scope="col" sortable="name">New deaths</th>
+                    <th class="table-danger" scope="col" sortable="name">Total deaths</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let country of countries">
                     <td scope="row" routerLink="/COVID19-per-country/{{country.Slug}}">{{country.Slug}}</td>
-                    <td>{{country.NewConfirmed}}</td>
-                    <td>{{country.TotalConfirmed}}</td>
-                    <td>{{country.NewRecovered}}</td>
-                    <td>{{country.TotalRecovered}}</td>
-                    <td>{{country.NewDeaths}}</td>
-                    <td>{{country.TotalDeaths}}</td>
+                    <td class="table-warning" >{{country.NewConfirmed}}</td>
+                    <td class="table-warning" >{{country.TotalConfirmed}}</td>
+                    <td class="table-primary" >{{country.NewRecovered}}</td>
+                    <td class="table-primary" >{{country.TotalRecovered}}</td>
+                    <td class="table-danger" >{{country.NewDeaths}}</td>
+                    <td class="table-danger" >{{country.TotalDeaths}}</td>
                 </tr>
                 
             </tbody>
         </table>
+        <div *ngIf="!isCollectioniLoaded">
+            <p>information not loaded (surely because firebase quota exceeded)</p>
+        </div>
 
         <!--NEWS-->
         <h1>News Worldwide</h1>
@@ -168,6 +171,9 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div *ngIf="!isNewsLoaded">
+            <p>information not loaded (surely because firebase quota exceeded)</p>
         </div>
     </body>
     <footer id = "footer">
