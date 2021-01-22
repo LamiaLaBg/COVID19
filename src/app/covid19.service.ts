@@ -18,16 +18,18 @@ import { NewsComponent } from './news/news.component';
 
 export class Covid19Service {
 
-  private user: User;
-  private country: Country;
+  private user!: User;
+  private country!: Country;
   private data: any;
   private data1:any;
-  private news: News;
+  private news!: News;
 
   url_covid19_summary="https://api.covid19api.com/summary"
 
   constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore, private http: HttpClient) { }
 
+
+  //******************* signin with google ********************//
   async signInWithGoogle(){
     const credentials = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       
@@ -38,7 +40,6 @@ export class Covid19Service {
       eligible: true,
     };
     localStorage.setItem('users', JSON.stringify(this.user));
-    //this.updateCovid19Summary()
     this.updateUserData();
     window.location.reload();// reloading the page
   }
@@ -52,23 +53,25 @@ export class Covid19Service {
     },{merge: true});// to update if the user already exists
   }
 
+  //get user connected
   getUser(){
     if(this.user == null && this.userSignedIn()){
       this.user = JSON.parse(localStorage.getItem("users"));
-      //this.user = this.firestore.collection("users").doc(this.user.uid).valueChanges();
     }
     return this.user;
   }
   
+  //get user from uid
   getUserInfo(user_uid:string){
     return this.firestore.collection("users").doc(user_uid).valueChanges();//peut etre ajouter un order by
   }
   
-
+  //check if user signed in
   userSignedIn(): boolean{
     return JSON.parse(localStorage.getItem("users")) != null;
   }
 
+  //******************* signin out ********************/
   async signOut(){
     this.afAuth.signOut();
     localStorage.removeItem("users");
@@ -77,6 +80,9 @@ export class Covid19Service {
     location.reload();
   }
 
+
+
+  //******************* add news ********************/
   userAddNews(_date:string, _description:string, _country:string){
     this.news={
       useruid:this.user.uid,
@@ -87,7 +93,6 @@ export class Covid19Service {
       country: _country,
     }
     this.firestore.collection("news").add(this.news);
-    //localStorage.setItem('news', JSON.stringify(this.news));
     return this.news
   }
 
@@ -96,6 +101,7 @@ export class Covid19Service {
   }
 
 
+  //******************* loadind summary api in the firestore ********************/
   async loadingCovid19Summary(){
     await this.getCovid19Summary()
       .subscribe(data => {
@@ -143,8 +149,7 @@ export class Covid19Service {
     },{merge: true});// to update if the data changed
   }
   
-  
-
+  //get the info from the summary api
   getCovid19Summary(): Observable<any> {
     return this.http.get(this.url_covid19_summary)
   }
@@ -153,20 +158,23 @@ export class Covid19Service {
   getCountry(){
     return this.firestore.collection("countries").valueChanges();// get the modified values
   }
+
+  //get country by slug
   getCountrybySlug(slug: String){
     this.firestore.collection("countries", ref => ref.where("Slug", "==", slug)).valueChanges();// get the modified values
   }
 
+  //xheck if country uploaded
   countryUploaded(): boolean{
     return JSON.parse(localStorage.getItem("countries")) != null;
   }
 
-  /// Per country
+  //******************* retrive information from the Word wip api or the By country all status api ********************/
   getCovid19PerDay(url_perDay_covid: string): Observable<any> {
     return this.http.get(url_perDay_covid)
   }
 
-  //retrieving other information for first tabel
+  //******************* retrieve the global information from summary ********************/
   async FirstTable(){
     await this.getCovid19Summary()
       .subscribe(data => {
@@ -183,6 +191,7 @@ export class Covid19Service {
       });
   }
 
+  //******************* redirection functions ********************/
   //add the redirection the add News page
   addNews(){
     this.router.navigate(["news"]);

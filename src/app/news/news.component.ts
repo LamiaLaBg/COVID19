@@ -10,20 +10,20 @@ import { User } from '../user.model';
 })
 export class NewsComponent implements OnInit {
 
-  user: User;
+  user!: User;
   elements: any = [];
   isSignedUp:boolean =false;
   isEligible:boolean =false;
   isDataNewsuploaded = false;
-  news: News[];
+  news!: News[];
 
   //variables of the form
   date:any;
-  description:string;
-  country:string;
+  description!:string;
+  country!:string;
 
   countries: any;
-  userInfo: User;
+  userInfo!: User;
 
 
   constructor(public covid19Service: Covid19Service) { }
@@ -36,12 +36,9 @@ export class NewsComponent implements OnInit {
       this.isSignedUp=true;
     }
 
-    ///console.log("user = "+this.isEligible);
     if (this.isSignedUp){
       this.covid19Service.getUserInfo(this.user.uid).subscribe(_user => {
         this.userInfo=_user as User;
-        //console.log("_user = "+_user);
-        //console.log("_user = "+_user.eligible);
         this.isEligible= this.userInfo.eligible;//get updated data of user for eligibility
       });
     }
@@ -52,18 +49,16 @@ export class NewsComponent implements OnInit {
     
     this.covid19Service.getNews().subscribe((news)=>{
       this.news=news as News[];
+      this.isDataNewsuploaded = true;
     });
-    
-    
-    this.isDataNewsuploaded=true;
   }
 
   useraddingNews(){
     this.covid19Service.userAddNews(this.date, this.description, this.country);
     console.log(this.date + this.description+ this.country);
     this.date=undefined;
-    this.country=undefined;
-    this.description=undefined;
+    this.country="";
+    this.description="";
   }
 }
 

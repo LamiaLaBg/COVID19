@@ -27,12 +27,13 @@ export class Covid19Component implements OnInit {
   TotalDeaths_perc:any;
   TotalRecovered_perc:any;
   ActiveCases_perc:any;
-
-
+  //define worldwild news tab
+  worldWideNews: News[]=[];
+  
+  //boolean values
   isApiLoaded:boolean=false;
   isCollectioniLoaded:boolean=false;
   isNewsLoaded:boolean=false;
-
   lackOfInfoBarChart:boolean=true;
   
 
@@ -50,47 +51,43 @@ export class Covid19Component implements OnInit {
   barChartLegend = true;
   barChartPlugins: any  = [];
   barChartData: ChartDataSets[] = [];
-  tabDeaths:any=[];
-  tabRecovered:any=[];
-  tabNewCases:any=[];
-  tabDeaths7:any=[];
-  tabRecovered7:any=[];
-  tabNewCases7:any=[];
-
-
+  
+  
+  ////for the 7 last days per day info
   Date_7 : any;
   Date_6 : any;
   Date_5 : any;
   Date_4 : any;
   Date_3 : any;
   Date_2 : any;
-  Date_1: any;
+  Date_1 : any;
+  Date_i : any;//used for the linechart since 13 april
+  tabDeaths:any=[];
+  tabRecovered:any=[];
+  tabNewCases:any=[];
+  tabDeaths7:any=[];
+  tabRecovered7:any=[];
+  tabNewCases7:any=[];
+  
+  //url of the By country all status api
   url_perDay_covid!: string;
   url_since_13_April!: string;
 
   //curve chart
   lineChartData: ChartDataSets[] = [];
-
   lineChartLabels: Label[] = [];
-
   lineChartOptions = {
     responsive: true,
   };
-
-
   lineChartColors: Color[] = [
     {
       borderColor: 'black',
       backgroundColor: 'rgba(255,255,0,0.28)',
     },
   ];
-
   lineChartLegend = true;
   lineChartPlugins:any = [];
   lineChartType: ChartType = 'line';
-
-  //define worldwild news tab
-  worldWideNews: News[]=[];
 
 
   constructor(public covid19Service: Covid19Service, private datePipe: DatePipe, public router: Router) { }
@@ -169,40 +166,6 @@ export class Covid19Component implements OnInit {
     this.Date_1=new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     this.Date_1=this.datePipe.transform(this.Date_1,"yyyy-MM-dd")
 
-
-    //curve since 13 april
-    this.url_since_13_April ="https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to="+this.Date_7+"T00:00:00Z"
-    console.log(this.url_since_13_April);
-    
-    this.covid19Service.getCovid19PerDay(this.url_since_13_April).subscribe(data_ => {
-      try{
-        let i=0;
-        while(i < data_.length){
-          this.tabDeaths.push(parseInt(data_[i].TotalDeaths))
-          this.tabNewCases.push(parseInt(data_[i].TotalConfirmed))
-          this.tabRecovered.push(parseInt(data_[i].TotalRecovered))
-          i++;
-        }
-      }catch(error){
-        console.error("error")
-        this.lackOfInfoBarChart=false;
-        console.log("lack of information");
-      }
-      let Date_i=null;
-      for (let i=data_.length-1; i>=0;i--){
-        Date_i = new Date(Date.now() - i*24 * 60 * 60 * 1000)
-        Date_i=this.datePipe.transform(Date_i,"yyyy-MM-dd")
-        this.lineChartLabels.push(Date_i);
-      }
-    
-      this.lineChartData = [
-        { data: this.tabDeaths, label: 'Daily Death' },
-        {data: this.tabRecovered, label: 'Daily Recovered'},
-        {data: this.tabNewCases, label: 'Daily New Cases'},
-      ];
-    });
-    
-
     //bar chart 7 last days
     this.url_perDay_covid="https://api.covid19api.com/world?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
     console.log("this.url_perDay_covid",this.url_perDay_covid)
@@ -236,5 +199,39 @@ export class Covid19Component implements OnInit {
         {data: this.tabNewCases7, label: 'Daily New Cases'},
       ];
     });
+
+    //curve since 13 april
+    this.url_since_13_April ="https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to="+this.Date_7+"T00:00:00Z"
+    console.log(this.url_since_13_April);
+    
+    this.covid19Service.getCovid19PerDay(this.url_since_13_April).subscribe(data_ => {
+      try{
+        let i=0;
+        while(i < data_.length){
+          this.tabDeaths.push(parseInt(data_[i].TotalDeaths))
+          this.tabNewCases.push(parseInt(data_[i].TotalConfirmed))
+          this.tabRecovered.push(parseInt(data_[i].TotalRecovered))
+          i++;
+        }
+      }catch(error){
+        console.error("error")
+        this.lackOfInfoBarChart=false;
+        console.log("lack of information");
+      }
+
+      for (let i=data_.length-1; i>=0;i--){
+        this.Date_i = new Date(Date.now() - i*24 * 60 * 60 * 1000)
+        this.Date_i=this.datePipe.transform(this.Date_i,"yyyy-MM-dd")
+        this.lineChartLabels.push(this.Date_i);
+      }
+    
+      this.lineChartData = [
+        { data: this.tabDeaths, label: 'Daily Death' },
+        {data: this.tabRecovered, label: 'Daily Recovered'},
+        {data: this.tabNewCases, label: 'Daily New Cases'},
+      ];
+    });
+
+
   }
 }

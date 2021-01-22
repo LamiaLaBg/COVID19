@@ -1,33 +1,34 @@
-<body *ngIf="isDataNewsuploaded">
-    <div *ngIf="!isSignedUp" >
-        <ul class="nav nav-pills">
-            <div class="nav-item">
-                <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
-            </div>
-            <div class="nav-item">
-                <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
-            </div>
-        </ul>
-        <div class="text-center">
-            <h1>please sign in to add a news !</h1>
+
+<div *ngIf="!isSignedUp" >
+    <ul class="nav nav-pills">
+        <div class="nav-item">
+            <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
         </div>
-    </div>
-    
-    <div *ngIf="isSignedUp" class="row">
-        <div  class="col-sm-12">
-            <h3>{{user.displayName}}</h3>
-        </div>
-        
         <div class="nav-item">
             <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
         </div>
-        <div class="nav-item">
-            <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
-        </div>
+    </ul>
+    <div class="text-center">
+        <h1>please sign in to add a news !</h1>
+    </div>
+</div>
+
+<div *ngIf="isSignedUp" class="row">
+    <div  class="col-sm-12">
+        <h3>{{user.displayName}}</h3>
     </div>
     
-    <div class="my-3">
-        <table class="table table-bordered table-striped">
+    <div class="nav-item">
+        <button class="btn btn-info" (click)="covid19Service.goToMainPage()">Main Page</button>
+    </div>
+    <div class="nav-item">
+        <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
+    </div>
+</div>
+<body >
+     <!--News-->
+    <div *ngIf="isDataNewsuploaded" class="my-3">
+        <table datatable class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>user name</th>
@@ -49,6 +50,7 @@
         </table>
     </div>
     
+     <!--If eligible (of course false if not signed up see .ts doc)-->
     <div *ngIf="isEligible">
         <h4>Add news</h4>
         <form (ngSubmit)="useraddingNews()">
@@ -97,6 +99,9 @@
         </div>
         <button class="btn btn-primary">Add</button>
         </form>
+    </div>
+    <div *ngIf="!isEligible"class="text-center">
+        <h1>Sorry you're not eligible contact the owner of the website (lamia salhi) to be granted the eligibility</h1>
     </div>
 </body>
 <footer id = "footer">

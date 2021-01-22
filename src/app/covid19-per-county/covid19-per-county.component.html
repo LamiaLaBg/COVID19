@@ -120,31 +120,31 @@
                 [plugins]="lineChartPlugins">
             </canvas>
         </div>
+    
+        <!--news tab-->
+        <div class="my-3">
+            <table *ngIf="isNewsLoaded" datatable class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>user name</th>
+                        <th>user email</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>country</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let new of countryNews " >
+                        <td>{{new.userName}}</td>
+                        <td>{{new.userEmail}}</td>
+                        <td>{{new.date}}</td>
+                        <td>{{new.description}}</td>
+                        <td>{{new.country}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
-
-    <div class="my-3">
-        <table *ngIf="isNewsLoaded" datatable class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>user name</th>
-                    <th>user email</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>country</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let new of countryNews " >
-                    <td>{{new.userName}}</td>
-                    <td>{{new.userEmail}}</td>
-                    <td>{{new.date}}</td>
-                    <td>{{new.description}}</td>
-                    <td>{{new.country}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
     <footer id = "footer">
         <p><a href="https://covid19api.com/" title="covidapi">Data Source: Johns Hpkins CSSE</a></p>
     </footer>
