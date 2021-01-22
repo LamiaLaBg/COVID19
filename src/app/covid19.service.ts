@@ -25,7 +25,6 @@ export class Covid19Service {
   private news: News;
 
   url_covid19_summary="https://api.covid19api.com/summary"
-  //dataSummary: any;
 
   constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore, private http: HttpClient) { }
 
@@ -42,7 +41,6 @@ export class Covid19Service {
     //this.updateCovid19Summary()
     this.updateUserData();
     window.location.reload();// reloading the page
-    //this.router.navigate(["COVID19"]); // TODO: à modifier
   }
   
   private updateUserData(){
@@ -102,15 +100,7 @@ export class Covid19Service {
     await this.getCovid19Summary()
       .subscribe(data => {
           this.data=data;
-          /*
-          console.log("length",this.data.Countries.length)
-          console.log("country",this.data1.Country)
-          console.log("DATE", this.data1.Date)
-          */
-
-          //we add the global info
-
-          //we add info for each country
+          //we add info for each country in the firebase
           for (let i=0; i<this.data.Countries.length; i++){
             let data1 =this.data.Countries[i];
             this.country={
@@ -132,17 +122,10 @@ export class Covid19Service {
             localStorage.setItem('countries', JSON.stringify(this.country));
             this.updateCovid19Summary();
           }
-
       });
-      //this.country=this.data.Countries[1]
-      console.log("countries", this.data1)
-      console.log("countries", this.country)
-    
-    
   }
   private updateCovid19Summary(){
     this.firestore.collection("countries").doc(this.country.uid).set({
-      //Country: this.country,
       uid: this.country.uid,
       Country: this.country.Country,
       CountryCode: this.country.CountryCode,
@@ -166,7 +149,7 @@ export class Covid19Service {
     return this.http.get(this.url_covid19_summary)
   }
 
-  //retrive information from the firebase
+  //retrieve information from the firebase
   getCountry(){
     return this.firestore.collection("countries").valueChanges();// get the modified values
   }
@@ -188,7 +171,6 @@ export class Covid19Service {
     await this.getCovid19Summary()
       .subscribe(data => {
           this.data=data;
-          
           console.log("TotalCases",this.data.Global.TotalConfirmed)
           console.log("NewCases",this.data.Global.NewConfirmed)
           console.log("ActiveCases")
@@ -201,16 +183,13 @@ export class Covid19Service {
       });
   }
 
-
-
   //add the redirection the add News page
   addNews(){
     this.router.navigate(["news"]);
   }
 
+  //aredirect to the main page
   goToMainPage(){
     this.router.navigate(["COVID19"]);
   }
-
-
 }

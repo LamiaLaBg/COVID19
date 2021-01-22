@@ -224,8 +224,6 @@ export class Covid19PerCountyComponent implements OnInit {
           this.lackOfInfoBarChart=false;
           console.log("lack of information");
         }
-        //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
-        //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]
         
         this.barChartData = [
           { data: this.tabDeaths7, label: 'Daily Death' },
@@ -260,9 +258,6 @@ export class Covid19PerCountyComponent implements OnInit {
         this.lackOfInfoBarChart=false;
         console.log("lack of information");
       }
-      
-      //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
-      //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]
       let Date_i=null;
       for (let i=nbData13April; i>=1;i--){
         Date_i = new Date(Date.now() - i*24 * 60 * 60 * 1000)
@@ -276,8 +271,6 @@ export class Covid19PerCountyComponent implements OnInit {
         {data: this.tabNewCases, label: 'Total New Cases'},
       ];
     });
-    console.log("finished")
-    
   }
 
 }

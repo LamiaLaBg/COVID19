@@ -120,7 +120,7 @@ export class Covid19Component implements OnInit {
       this.isNewsLoaded=true;
     });
     
-    //uploading datas if not in the database
+    //uploading data if not in the database
     this.covid19Service.getCountry().subscribe(countries=>{
       if (countries.length==0){//if the firbase doesn't contain countries collection
         this.covid19Service.loadingCovid19Summary();//load Covid19 Summary in the firestore
@@ -170,9 +170,7 @@ export class Covid19Component implements OnInit {
     this.Date_1=this.datePipe.transform(this.Date_1,"yyyy-MM-dd")
 
 
-    //curb since 13 april
-    //this.url_since_13_April ="https://api.covid19api.com/world?from=2021-01-01T00:00:00Z&to=2021-01-01T00:00:00Z"
-    
+    //curve since 13 april
     this.url_since_13_April ="https://api.covid19api.com/world?from=2020-04-13T00:00:00Z&to="+this.Date_7+"T00:00:00Z"
     console.log(this.url_since_13_April);
     
@@ -185,15 +183,11 @@ export class Covid19Component implements OnInit {
           this.tabRecovered.push(parseInt(data_[i].TotalRecovered))
           i++;
         }
-
-
       }catch(error){
         console.error("error")
         this.lackOfInfoBarChart=false;
         console.log("lack of information");
       }
-      //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
-      //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]
       let Date_i=null;
       for (let i=data_.length-1; i>=0;i--){
         Date_i = new Date(Date.now() - i*24 * 60 * 60 * 1000)
@@ -212,7 +206,6 @@ export class Covid19Component implements OnInit {
     //bar chart 7 last days
     this.url_perDay_covid="https://api.covid19api.com/world?from="+ this.Date_1+"T00:00:00Z&to=" +this.Date_7+"T00:00:00Z"
     console.log("this.url_perDay_covid",this.url_perDay_covid)
-    
     
     this.covid19Service.getCovid19PerDay(this.url_perDay_covid).subscribe(data_ => {
       try{
@@ -235,8 +228,7 @@ export class Covid19Component implements OnInit {
         this.lackOfInfoBarChart=false;
         console.log("lack of information");
       }
-      //this.tab=[parseInt(data_[0].Deaths), parseInt(data_[1].Deaths), parseInt(data_[2].Deaths) ,parseInt(data_[3].Deaths), parseInt(data_[4].Deaths), parseInt(data_[4].Deaths),parseInt(data_[4].Deaths)]
-      //this.tab_dailyDeath=[45, 37, 60, 70, 46, 33,10]
+
       this.barChartLabels=[this.Date_1, this.Date_2, this.Date_3, this.Date_4, this.Date_5,this.Date_6,this.Date_7]
       this.barChartData = [
         { data: this.tabDeaths7, label: 'Daily Death' },

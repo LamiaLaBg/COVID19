@@ -5,7 +5,7 @@
     </head>
     
     <header>
-        <!---créer une navbar avec signin/signout-->
+        <!---covid 19 title-->
         <div class="text-center">
             <img 
             class="img-fluid"
@@ -13,9 +13,7 @@
             alt="covid" >
             <h1>COVID19</h1>
         </div>
-        </header>
-        
-        
+    </header>
         <div *ngIf="isSignedUp" class="col-sm-6">
             <h3>{{user.displayName}}</h3>
         </div>
@@ -38,39 +36,7 @@
     <body *ngIf="isDataLoaded">
         
         <h3>Corona Virus Summary {{country_page.Country}}</h3>
-        <!--table chart
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Total Cases</th>
-                    <th>New Cases</th>
-                    <th>Active Cases</th>
-                    <th>Total Recovered</th>
-                    <th>New Recovered</th>
-                    <th>Recovery Rate</th>
-                    <th>Total Deaths</th>
-                    <th>New Deaths</th>
-                    <th>Mortality Rate</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr >
-                    <td >{{country_page.TotalConfirmed}}</td>
-                    <td>{{country_page.NewConfirmed}}</td>
-                    <td>{{country_page.ActiveCases}}</td>
-
-                    <td>{{country_page.TotalRecovered}}</td>
-                    <td>{{country_page.NewRecovered}}</td>
-                    <td>{{country_page.RecoveryRate}}</td>
-
-                    <td>{{country_page.TotalDeaths}}</td>
-                    <td>{{country_page.NewDeaths}}</td>
-                    <td>{{country_page.MortalityRate}}</td>
-                    
-                </tr>
-            </tbody>
-        </table>
-        -->
+        <!--table chart-->
         <table class="table table-bordered table-striped center" >
             
             <tbody >
@@ -169,11 +135,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let new of countryNews " >
-                        <td>{{new.userName}}</td>
-                        <td>{{new.userEmail}}</td>
-                        <td>{{new.date}}</td>
-                        <td>{{new.description}}</td>
-                        <td>{{new.country}}</td>
+                    <td>{{new.userName}}</td>
+                    <td>{{new.userEmail}}</td>
+                    <td>{{new.date}}</td>
+                    <td>{{new.description}}</td>
+                    <td>{{new.country}}</td>
                 </tr>
             </tbody>
         </table>
@@ -182,6 +148,4 @@
     <footer id = "footer">
         <p><a href="https://covid19api.com/" title="covidapi">Data Source: Johns Hpkins CSSE</a></p>
     </footer>
-    <!--- ajouter commentaire + pour l'eligibilité créer un varibale eligible --->
-
 </html>
