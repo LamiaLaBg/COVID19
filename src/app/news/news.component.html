@@ -9,7 +9,7 @@
             <h1>COVID19</h1>
         </div>
     
-        <div *ngIf="!isSignedUp" >
+        <div *ngIf="!covid19Service.userSignedIn()" >
             <ul class="nav nav-pills">
                 <div class="nav-item">
                     <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div *ngIf="isSignedUp" class="row">
+        <div *ngIf="covid19Service.userSignedIn()" class="row">
             <div  class="col-sm-12">
                 <h3>{{user.displayName}}</h3>
             </div>
@@ -64,7 +64,7 @@
         <div *ngIf="!isDataNewsuploaded">
             <p>information not loaded (surely because firebase quota exceeded)</p>
         </div>
-        <div *ngIf="isSignedUp">
+        <div *ngIf="covid19Service.userSignedIn()">
             <!--If eligible (of course false if not signed up see .ts doc)-->
             <!--News form-->
             <div *ngIf="isEligible">

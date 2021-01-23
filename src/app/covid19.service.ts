@@ -33,23 +33,23 @@ export class Covid19Service {
   async signInWithGoogle(){
     const credentials = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
       
-    this.user={
+    this.user = {
       uid: credentials.user.uid,
       displayName: credentials.user.displayName,
       email: credentials.user.email,
-      eligible: true,
+      eligible: false, // eligibility put to false by default
     };
+
     localStorage.setItem('users', JSON.stringify(this.user));
     this.updateUserData();
-    window.location.reload();// reloading the page
+    this.router.navigate([""]);
   }
   
   private updateUserData(){
     this.firestore.collection("users").doc(this.user.uid).set({
       uid: this.user.uid,
       displayName: this.user.displayName,
-      email: this.user.email,
-      eligible: this.user.eligible
+      email: this.user.email
     },{merge: true});// to update if the user already exists
   }
 
