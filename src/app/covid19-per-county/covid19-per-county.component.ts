@@ -247,6 +247,7 @@ export class Covid19PerCountyComponent implements OnInit {
           }
           i++;
         }
+        
       }catch(error){
         console.error("error")
         this.lackOfInfoBarChart=false;
