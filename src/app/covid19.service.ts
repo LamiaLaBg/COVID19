@@ -42,7 +42,8 @@ export class Covid19Service {
 
     localStorage.setItem('users', JSON.stringify(this.user));
     this.updateUserData();
-    this.router.navigate([""]);
+    //this.router.navigate([""]);
+    document.location.reload();
   }
   
   private updateUserData(){
@@ -58,6 +59,7 @@ export class Covid19Service {
     if(this.user == null && this.userSignedIn()){
       this.user = JSON.parse(localStorage.getItem("users"));
     }
+    console.log(this.user)
     return this.user;
   }
   
