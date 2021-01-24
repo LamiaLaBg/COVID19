@@ -42,6 +42,7 @@ export class Covid19Service {
 
     localStorage.setItem('users', JSON.stringify(this.user));
     this.updateUserData();
+    this.router.navigate([""]);
   }
   
   private updateUserData(){
@@ -51,7 +52,7 @@ export class Covid19Service {
       email: this.user.email,
       eligible: this.user.eligible
     },{merge: true});// to update if the user already exists
-    document.location.reload();
+    //document.location.reload();
   }
 
   //get user connected
