@@ -42,23 +42,25 @@ export class Covid19Service {
 
     localStorage.setItem('users', JSON.stringify(this.user));
     this.updateUserData();
-    //this.router.navigate([""]);
-    document.location.reload();
   }
   
   private updateUserData(){
     this.firestore.collection("users").doc(this.user.uid).set({
       uid: this.user.uid,
       displayName: this.user.displayName,
-      email: this.user.email
+      email: this.user.email,
+      eligible: this.user.eligible
     },{merge: true});// to update if the user already exists
+    document.location.reload();
   }
 
   //get user connected
   getUser(){
+    
     if(this.user == null && this.userSignedIn()){
       this.user = JSON.parse(localStorage.getItem("users"));
     }
+    
     console.log(this.user)
     return this.user;
   }

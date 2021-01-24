@@ -13,20 +13,20 @@
         </div>
 
         <!---show user name if signed in-->
-        <div *ngIf="isSignedUp" class="col-sm-6">
+        <div *ngIf="covid19Service.userSignedIn()" class="col-sm-6">
             <h3 *ngIf="isSignedUp">{{user.displayName}}</h3>
         </div>
     
         
         <p id="countryname"></p>
         <ul class="nav nav-pills">
-            <div *ngIf="!isSignedUp" class="nav-item">
+            <div *ngIf="!covid19Service.userSignedIn()" class="nav-item">
                 <button class="btn btn-info" (click)="covid19Service.signInWithGoogle()">sign in with google</button>
             </div>
             <div class="nav-item">
                 <button class="btn btn-info" (click)="covid19Service.addNews()">Add news</button>
             </div>
-            <div *ngIf="isSignedUp" class="nav-item">
+            <div *ngIf="covid19Service.userSignedIn()" class="nav-item">
                 <button class="btn btn-danger" (click)="covid19Service.signOut()">Sign Out</button>
             </div>
         </ul>
