@@ -1,5 +1,31 @@
 # COVID19
 
+This app has been created for the eurecom Cloud final project. the written news given on this website are not reliable.
+
+you can find the application deployed on this url :https://covid19-69f30.web.app/COVID19
+
+# description
+This app presents the covid 19 statistics world wide and per country. You may access to the country data by clicking on the country name (tha you want to look at) in the table containing ell the countries information present in the main.
+There is also a feature allowing you to add a news (given you're granted the eligibility). This is eligibility is granted by me (lamia salhi) the owner of the website. Please contact me if you want to add a news (unfortunately for now the eligibility is not permanent and is available only while you're connected. 
+
+## API
+The api used is from :
+url :https://covid19api.com/
+Data is sourced from Johns Hopkins CSSE
+Built by Kyle Redelinghuys
+
+## Frameworks
+The frameworks used are :
+ng2-charts (to plot charts)
+dataTables (for ordering tables and even use a search bar to find quickly the data)
+Bootstrap (for front and responsiveness)
+Angular
+Firestore
+FormModule to create forms
+
+
+# Angular commands
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.3.
 
 ## Development server
